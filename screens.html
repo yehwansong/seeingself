@@ -1,0 +1,5495 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Animated Popups (30 FPS)</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+  <style type="text/css">
+    body,html{
+      width: 100%;
+      height:100%;
+      background-color: lime
+    }
+  </style>
+  <script>
+    const popupData = 
+[
+  {
+    "frame": 0,
+    "filename": "cam1_0000.png",
+    "white": {
+      "left": 41,
+      "top": 61,
+      "width": 364,
+      "height": 372
+    },
+    "blue": {
+      "left": 227,
+      "top": 149,
+      "width": 178,
+      "height": 391
+    },
+    "red": {
+      "left": 41,
+      "top": 349,
+      "width": 187,
+      "height": 190
+    }
+  },
+  {
+    "frame": 1,
+    "filename": "cam1_0001.png",
+    "white": {
+      "left": 41,
+      "top": 61,
+      "width": 363,
+      "height": 371
+    },
+    "blue": {
+      "left": 229,
+      "top": 147,
+      "width": 176,
+      "height": 391
+    },
+    "red": {
+      "left": 41,
+      "top": 349,
+      "width": 186,
+      "height": 190
+    }
+  },
+  {
+    "frame": 2,
+    "filename": "cam1_0002.png",
+    "white": {
+      "left": 40,
+      "top": 61,
+      "width": 364,
+      "height": 371
+    },
+    "blue": {
+      "left": 228,
+      "top": 147,
+      "width": 178,
+      "height": 393
+    },
+    "red": {
+      "left": 40,
+      "top": 350,
+      "width": 188,
+      "height": 189
+    }
+  },
+  {
+    "frame": 3,
+    "filename": "cam1_0003.png",
+    "white": {
+      "left": 39,
+      "top": 61,
+      "width": 363,
+      "height": 371
+    },
+    "blue": {
+      "left": 227,
+      "top": 144,
+      "width": 180,
+      "height": 394
+    },
+    "red": {
+      "left": 39,
+      "top": 351,
+      "width": 190,
+      "height": 188
+    }
+  },
+  {
+    "frame": 4,
+    "filename": "cam1_0004.png",
+    "white": {
+      "left": 38,
+      "top": 61,
+      "width": 362,
+      "height": 371
+    },
+    "blue": {
+      "left": 225,
+      "top": 143,
+      "width": 184,
+      "height": 396
+    },
+    "red": {
+      "left": 37,
+      "top": 353,
+      "width": 197,
+      "height": 187
+    }
+  },
+  {
+    "frame": 5,
+    "filename": "cam1_0005.png",
+    "white": {
+      "left": 35,
+      "top": 61,
+      "width": 363,
+      "height": 371
+    },
+    "blue": {
+      "left": 223,
+      "top": 143,
+      "width": 188,
+      "height": 395
+    },
+    "red": {
+      "left": 35,
+      "top": 355,
+      "width": 198,
+      "height": 184
+    }
+  },
+  {
+    "frame": 6,
+    "filename": "cam1_0006.png",
+    "white": {
+      "left": 33,
+      "top": 61,
+      "width": 362,
+      "height": 371
+    },
+    "blue": {
+      "left": 220,
+      "top": 141,
+      "width": 193,
+      "height": 398
+    },
+    "red": {
+      "left": 33,
+      "top": 357,
+      "width": 203,
+      "height": 182
+    }
+  },
+  {
+    "frame": 7,
+    "filename": "cam1_0007.png",
+    "white": {
+      "left": 30,
+      "top": 61,
+      "width": 361,
+      "height": 372
+    },
+    "blue": {
+      "left": 217,
+      "top": 137,
+      "width": 199,
+      "height": 401
+    },
+    "red": {
+      "left": 30,
+      "top": 360,
+      "width": 209,
+      "height": 179
+    }
+  },
+  {
+    "frame": 8,
+    "filename": "cam1_0008.png",
+    "white": {
+      "left": 28,
+      "top": 62,
+      "width": 358,
+      "height": 371
+    },
+    "blue": {
+      "left": 213,
+      "top": 135,
+      "width": 206,
+      "height": 403
+    },
+    "red": {
+      "left": 27,
+      "top": 361,
+      "width": 218,
+      "height": 178
+    }
+  },
+  {
+    "frame": 9,
+    "filename": "cam1_0009.png",
+    "white": {
+      "left": 25,
+      "top": 62,
+      "width": 355,
+      "height": 371
+    },
+    "blue": {
+      "left": 209,
+      "top": 131,
+      "width": 213,
+      "height": 407
+    },
+    "red": {
+      "left": 25,
+      "top": 367,
+      "width": 222,
+      "height": 171
+    }
+  },
+  {
+    "frame": 10,
+    "filename": "cam1_0010.png",
+    "white": {
+      "left": 22,
+      "top": 63,
+      "width": 353,
+      "height": 370
+    },
+    "blue": {
+      "left": 205,
+      "top": 128,
+      "width": 219,
+      "height": 410
+    },
+    "red": {
+      "left": 22,
+      "top": 371,
+      "width": 230,
+      "height": 166
+    }
+  },
+  {
+    "frame": 11,
+    "filename": "cam1_0011.png",
+    "white": {
+      "left": 19,
+      "top": 63,
+      "width": 350,
+      "height": 371
+    },
+    "blue": {
+      "left": 200,
+      "top": 124,
+      "width": 227,
+      "height": 412
+    },
+    "red": {
+      "left": 20,
+      "top": 376,
+      "width": 236,
+      "height": 161
+    }
+  },
+  {
+    "frame": 12,
+    "filename": "cam1_0012.png",
+    "white": {
+      "left": 17,
+      "top": 64,
+      "width": 343,
+      "height": 370
+    },
+    "blue": {
+      "left": 195,
+      "top": 120,
+      "width": 234,
+      "height": 415
+    },
+    "red": {
+      "left": 18,
+      "top": 381,
+      "width": 242,
+      "height": 155
+    }
+  },
+  {
+    "frame": 13,
+    "filename": "cam1_0013.png",
+    "white": {
+      "left": 15,
+      "top": 65,
+      "width": 338,
+      "height": 370
+    },
+    "blue": {
+      "left": 190,
+      "top": 117,
+      "width": 241,
+      "height": 417
+    },
+    "red": {
+      "left": 15,
+      "top": 386,
+      "width": 250,
+      "height": 149
+    }
+  },
+  {
+    "frame": 14,
+    "filename": "cam1_0014.png",
+    "white": {
+      "left": 14,
+      "top": 67,
+      "width": 330,
+      "height": 369
+    },
+    "blue": {
+      "left": 185,
+      "top": 114,
+      "width": 247,
+      "height": 419
+    },
+    "red": {
+      "left": 14,
+      "top": 392,
+      "width": 257,
+      "height": 141
+    }
+  },
+  {
+    "frame": 15,
+    "filename": "cam1_0015.png",
+    "white": {
+      "left": 13,
+      "top": 68,
+      "width": 320,
+      "height": 369
+    },
+    "blue": {
+      "left": 179,
+      "top": 110,
+      "width": 254,
+      "height": 422
+    },
+    "red": {
+      "left": 14,
+      "top": 398,
+      "width": 262,
+      "height": 134
+    }
+  },
+  {
+    "frame": 16,
+    "filename": "cam1_0016.png",
+    "white": {
+      "left": 13,
+      "top": 70,
+      "width": 309,
+      "height": 369
+    },
+    "blue": {
+      "left": 174,
+      "top": 107,
+      "width": 259,
+      "height": 423
+    },
+    "red": {
+      "left": 13,
+      "top": 404,
+      "width": 268,
+      "height": 126
+    }
+  },
+  {
+    "frame": 17,
+    "filename": "cam1_0017.png",
+    "white": {
+      "left": 14,
+      "top": 72,
+      "width": 296,
+      "height": 369
+    },
+    "blue": {
+      "left": 168,
+      "top": 104,
+      "width": 264,
+      "height": 424
+    },
+    "red": {
+      "left": 15,
+      "top": 411,
+      "width": 271,
+      "height": 117
+    }
+  },
+  {
+    "frame": 18,
+    "filename": "cam1_0018.png",
+    "white": {
+      "left": 15,
+      "top": 74,
+      "width": 284,
+      "height": 369
+    },
+    "blue": {
+      "left": 162,
+      "top": 102,
+      "width": 269,
+      "height": 424
+    },
+    "red": {
+      "left": 15,
+      "top": 417,
+      "width": 276,
+      "height": 109
+    }
+  },
+  {
+    "frame": 19,
+    "filename": "cam1_0019.png",
+    "white": {
+      "left": 18,
+      "top": 76,
+      "width": 266,
+      "height": 369
+    },
+    "blue": {
+      "left": 157,
+      "top": 99,
+      "width": 271,
+      "height": 425
+    },
+    "red": {
+      "left": 18,
+      "top": 424,
+      "width": 281,
+      "height": 100
+    }
+  },
+  {
+    "frame": 20,
+    "filename": "cam1_0020.png",
+    "white": {
+      "left": 22,
+      "top": 79,
+      "width": 248,
+      "height": 368
+    },
+    "blue": {
+      "left": 151,
+      "top": 97,
+      "width": 274,
+      "height": 424
+    },
+    "red": {
+      "left": 22,
+      "top": 431,
+      "width": 279,
+      "height": 90
+    }
+  },
+  {
+    "frame": 21,
+    "filename": "cam1_0021.png",
+    "white": {
+      "left": 26,
+      "top": 82,
+      "width": 231,
+      "height": 368
+    },
+    "blue": {
+      "left": 146,
+      "top": 96,
+      "width": 274,
+      "height": 422
+    },
+    "red": {
+      "left": 27,
+      "top": 438,
+      "width": 278,
+      "height": 80
+    }
+  },
+  {
+    "frame": 22,
+    "filename": "cam1_0022.png",
+    "white": {
+      "left": 32,
+      "top": 85,
+      "width": 209,
+      "height": 368
+    },
+    "blue": {
+      "left": 141,
+      "top": 95,
+      "width": 273,
+      "height": 420
+    },
+    "red": {
+      "left": 33,
+      "top": 445,
+      "width": 276,
+      "height": 70
+    }
+  },
+  {
+    "frame": 23,
+    "filename": "cam1_0023.png",
+    "white": {
+      "left": 39,
+      "top": 88,
+      "width": 186,
+      "height": 368
+    },
+    "blue": {
+      "left": 137,
+      "top": 94,
+      "width": 270,
+      "height": 417
+    },
+    "red": {
+      "left": 40,
+      "top": 452,
+      "width": 274,
+      "height": 60
+    }
+  },
+  {
+    "frame": 24,
+    "filename": "cam1_0024.png",
+    "white": {
+      "left": 47,
+      "top": 92,
+      "width": 164,
+      "height": 367
+    },
+    "blue": {
+      "left": 133,
+      "top": 95,
+      "width": 266,
+      "height": 413
+    },
+    "red": {
+      "left": 50,
+      "top": 459,
+      "width": 266,
+      "height": 49
+    }
+  },
+  {
+    "frame": 25,
+    "filename": "cam1_0025.png",
+    "white": {
+      "left": 56,
+      "top": 95,
+      "width": 138,
+      "height": 370
+    },
+    "blue": {
+      "left": 129,
+      "top": 95,
+      "width": 261,
+      "height": 410
+    },
+    "red": {
+      "left": 57,
+      "top": 465,
+      "width": 264,
+      "height": 40
+    }
+  },
+  {
+    "frame": 26,
+    "filename": "cam1_0026.png",
+    "white": {
+      "left": 66,
+      "top": 97,
+      "width": 112,
+      "height": 374
+    },
+    "blue": {
+      "left": 126,
+      "top": 97,
+      "width": 254,
+      "height": 404
+    },
+    "red": {
+      "left": 67,
+      "top": 468,
+      "width": 255,
+      "height": 36
+    }
+  },
+  {
+    "frame": 27,
+    "filename": "cam1_0027.png",
+    "white": {
+      "left": 78,
+      "top": 99,
+      "width": 84,
+      "height": 378
+    },
+    "blue": {
+      "left": 123,
+      "top": 99,
+      "width": 246,
+      "height": 398
+    },
+    "red": {
+      "left": 80,
+      "top": 472,
+      "width": 244,
+      "height": 30
+    }
+  },
+  {
+    "frame": 28,
+    "filename": "cam1_0028.png",
+    "white": {
+      "left": 90,
+      "top": 101,
+      "width": 57,
+      "height": 380
+    },
+    "blue": {
+      "left": 121,
+      "top": 101,
+      "width": 235,
+      "height": 391
+    },
+    "red": {
+      "left": 91,
+      "top": 476,
+      "width": 235,
+      "height": 23
+    }
+  },
+  {
+    "frame": 29,
+    "filename": "cam1_0029.png",
+    "white": {
+      "left": 103,
+      "top": 105,
+      "width": 29,
+      "height": 382
+    },
+    "blue": {
+      "left": 120,
+      "top": 105,
+      "width": 223,
+      "height": 384
+    },
+    "red": {
+      "left": 103,
+      "top": 480,
+      "width": 226,
+      "height": 16
+    }
+  },
+  {
+    "frame": 30,
+    "filename": "cam1_0030.png",
+    "white": null,
+    "blue": {
+      "left": 117,
+      "top": 108,
+      "width": 212,
+      "height": 374
+    },
+    "red": {
+      "left": 117,
+      "top": 484,
+      "width": 212,
+      "height": 8
+    }
+  },
+  {
+    "frame": 31,
+    "filename": "cam1_0031.png",
+    "white": {
+      "left": 314,
+      "top": 105,
+      "width": 29,
+      "height": 382
+    },
+    "blue": {
+      "left": 103,
+      "top": 105,
+      "width": 224,
+      "height": 382
+    },
+    "red": {
+      "left": 118,
+      "top": 480,
+      "width": 225,
+      "height": 16
+    }
+  },
+  {
+    "frame": 32,
+    "filename": "cam1_0032.png",
+    "white": {
+      "left": 299,
+      "top": 101,
+      "width": 57,
+      "height": 380
+    },
+    "blue": {
+      "left": 90,
+      "top": 101,
+      "width": 235,
+      "height": 391
+    },
+    "red": {
+      "left": 120,
+      "top": 476,
+      "width": 236,
+      "height": 23
+    }
+  },
+  {
+    "frame": 33,
+    "filename": "cam1_0033.png",
+    "white": {
+      "left": 284,
+      "top": 99,
+      "width": 85,
+      "height": 378
+    },
+    "blue": {
+      "left": 78,
+      "top": 99,
+      "width": 245,
+      "height": 398
+    },
+    "red": {
+      "left": 123,
+      "top": 472,
+      "width": 243,
+      "height": 30
+    }
+  },
+  {
+    "frame": 34,
+    "filename": "cam1_0034.png",
+    "white": {
+      "left": 268,
+      "top": 97,
+      "width": 112,
+      "height": 374
+    },
+    "blue": {
+      "left": 66,
+      "top": 97,
+      "width": 254,
+      "height": 404
+    },
+    "red": {
+      "left": 124,
+      "top": 468,
+      "width": 255,
+      "height": 36
+    }
+  },
+  {
+    "frame": 35,
+    "filename": "cam1_0035.png",
+    "white": {
+      "left": 252,
+      "top": 95,
+      "width": 138,
+      "height": 370
+    },
+    "blue": {
+      "left": 56,
+      "top": 95,
+      "width": 261,
+      "height": 409
+    },
+    "red": {
+      "left": 125,
+      "top": 465,
+      "width": 264,
+      "height": 40
+    }
+  },
+  {
+    "frame": 36,
+    "filename": "cam1_0036.png",
+    "white": {
+      "left": 235,
+      "top": 92,
+      "width": 164,
+      "height": 367
+    },
+    "blue": {
+      "left": 47,
+      "top": 95,
+      "width": 267,
+      "height": 413
+    },
+    "red": {
+      "left": 130,
+      "top": 459,
+      "width": 266,
+      "height": 49
+    }
+  },
+  {
+    "frame": 37,
+    "filename": "cam1_0037.png",
+    "white": {
+      "left": 219,
+      "top": 88,
+      "width": 188,
+      "height": 368
+    },
+    "blue": {
+      "left": 39,
+      "top": 94,
+      "width": 271,
+      "height": 417
+    },
+    "red": {
+      "left": 132,
+      "top": 452,
+      "width": 274,
+      "height": 60
+    }
+  },
+  {
+    "frame": 38,
+    "filename": "cam1_0038.png",
+    "white": {
+      "left": 205,
+      "top": 85,
+      "width": 209,
+      "height": 368
+    },
+    "blue": {
+      "left": 32,
+      "top": 95,
+      "width": 273,
+      "height": 420
+    },
+    "red": {
+      "left": 137,
+      "top": 445,
+      "width": 276,
+      "height": 70
+    }
+  },
+  {
+    "frame": 39,
+    "filename": "cam1_0039.png",
+    "white": {
+      "left": 189,
+      "top": 82,
+      "width": 231,
+      "height": 368
+    },
+    "blue": {
+      "left": 26,
+      "top": 96,
+      "width": 274,
+      "height": 422
+    },
+    "red": {
+      "left": 141,
+      "top": 438,
+      "width": 278,
+      "height": 80
+    }
+  },
+  {
+    "frame": 40,
+    "filename": "cam1_0040.png",
+    "white": {
+      "left": 176,
+      "top": 79,
+      "width": 249,
+      "height": 368
+    },
+    "blue": {
+      "left": 21,
+      "top": 97,
+      "width": 274,
+      "height": 424
+    },
+    "red": {
+      "left": 145,
+      "top": 431,
+      "width": 279,
+      "height": 90
+    }
+  },
+  {
+    "frame": 41,
+    "filename": "cam1_0041.png",
+    "white": {
+      "left": 162,
+      "top": 76,
+      "width": 266,
+      "height": 369
+    },
+    "blue": {
+      "left": 18,
+      "top": 99,
+      "width": 272,
+      "height": 424
+    },
+    "red": {
+      "left": 150,
+      "top": 424,
+      "width": 278,
+      "height": 100
+    }
+  },
+  {
+    "frame": 42,
+    "filename": "cam1_0042.png",
+    "white": {
+      "left": 149,
+      "top": 74,
+      "width": 282,
+      "height": 369
+    },
+    "blue": {
+      "left": 15,
+      "top": 102,
+      "width": 269,
+      "height": 424
+    },
+    "red": {
+      "left": 155,
+      "top": 417,
+      "width": 276,
+      "height": 109
+    }
+  },
+  {
+    "frame": 43,
+    "filename": "cam1_0043.png",
+    "white": {
+      "left": 136,
+      "top": 72,
+      "width": 297,
+      "height": 369
+    },
+    "blue": {
+      "left": 14,
+      "top": 104,
+      "width": 264,
+      "height": 423
+    },
+    "red": {
+      "left": 160,
+      "top": 411,
+      "width": 271,
+      "height": 117
+    }
+  },
+  {
+    "frame": 44,
+    "filename": "cam1_0044.png",
+    "white": {
+      "left": 124,
+      "top": 70,
+      "width": 309,
+      "height": 369
+    },
+    "blue": {
+      "left": 13,
+      "top": 107,
+      "width": 260,
+      "height": 423
+    },
+    "red": {
+      "left": 165,
+      "top": 404,
+      "width": 268,
+      "height": 126
+    }
+  },
+  {
+    "frame": 45,
+    "filename": "cam1_0045.png",
+    "white": {
+      "left": 113,
+      "top": 68,
+      "width": 320,
+      "height": 370
+    },
+    "blue": {
+      "left": 13,
+      "top": 110,
+      "width": 254,
+      "height": 422
+    },
+    "red": {
+      "left": 171,
+      "top": 398,
+      "width": 261,
+      "height": 134
+    }
+  },
+  {
+    "frame": 46,
+    "filename": "cam1_0046.png",
+    "white": {
+      "left": 102,
+      "top": 67,
+      "width": 330,
+      "height": 369
+    },
+    "blue": {
+      "left": 14,
+      "top": 114,
+      "width": 248,
+      "height": 419
+    },
+    "red": {
+      "left": 174,
+      "top": 392,
+      "width": 258,
+      "height": 142
+    }
+  },
+  {
+    "frame": 47,
+    "filename": "cam1_0047.png",
+    "white": {
+      "left": 93,
+      "top": 65,
+      "width": 338,
+      "height": 370
+    },
+    "blue": {
+      "left": 15,
+      "top": 117,
+      "width": 241,
+      "height": 418
+    },
+    "red": {
+      "left": 181,
+      "top": 386,
+      "width": 250,
+      "height": 149
+    }
+  },
+  {
+    "frame": 48,
+    "filename": "cam1_0048.png",
+    "white": {
+      "left": 86,
+      "top": 64,
+      "width": 343,
+      "height": 370
+    },
+    "blue": {
+      "left": 17,
+      "top": 120,
+      "width": 234,
+      "height": 416
+    },
+    "red": {
+      "left": 186,
+      "top": 381,
+      "width": 243,
+      "height": 155
+    }
+  },
+  {
+    "frame": 49,
+    "filename": "cam1_0049.png",
+    "white": {
+      "left": 77,
+      "top": 63,
+      "width": 350,
+      "height": 371
+    },
+    "blue": {
+      "left": 19,
+      "top": 124,
+      "width": 227,
+      "height": 412
+    },
+    "red": {
+      "left": 191,
+      "top": 376,
+      "width": 235,
+      "height": 161
+    }
+  },
+  {
+    "frame": 50,
+    "filename": "cam1_0050.png",
+    "white": {
+      "left": 71,
+      "top": 63,
+      "width": 353,
+      "height": 370
+    },
+    "blue": {
+      "left": 22,
+      "top": 127,
+      "width": 219,
+      "height": 410
+    },
+    "red": {
+      "left": 193,
+      "top": 371,
+      "width": 231,
+      "height": 167
+    }
+  },
+  {
+    "frame": 51,
+    "filename": "cam1_0051.png",
+    "white": {
+      "left": 66,
+      "top": 62,
+      "width": 356,
+      "height": 371
+    },
+    "blue": {
+      "left": 25,
+      "top": 130,
+      "width": 212,
+      "height": 408
+    },
+    "red": {
+      "left": 199,
+      "top": 367,
+      "width": 222,
+      "height": 171
+    }
+  },
+  {
+    "frame": 52,
+    "filename": "cam1_0052.png",
+    "white": {
+      "left": 61,
+      "top": 62,
+      "width": 358,
+      "height": 371
+    },
+    "blue": {
+      "left": 27,
+      "top": 134,
+      "width": 206,
+      "height": 404
+    },
+    "red": {
+      "left": 201,
+      "top": 361,
+      "width": 218,
+      "height": 178
+    }
+  },
+  {
+    "frame": 53,
+    "filename": "cam1_0053.png",
+    "white": {
+      "left": 55,
+      "top": 61,
+      "width": 361,
+      "height": 372
+    },
+    "blue": {
+      "left": 30,
+      "top": 138,
+      "width": 199,
+      "height": 399
+    },
+    "red": {
+      "left": 207,
+      "top": 360,
+      "width": 209,
+      "height": 179
+    }
+  },
+  {
+    "frame": 54,
+    "filename": "cam1_0054.png",
+    "white": {
+      "left": 51,
+      "top": 61,
+      "width": 362,
+      "height": 371
+    },
+    "blue": {
+      "left": 33,
+      "top": 141,
+      "width": 193,
+      "height": 398
+    },
+    "red": {
+      "left": 210,
+      "top": 357,
+      "width": 203,
+      "height": 182
+    }
+  },
+  {
+    "frame": 55,
+    "filename": "cam1_0055.png",
+    "white": {
+      "left": 49,
+      "top": 61,
+      "width": 362,
+      "height": 371
+    },
+    "blue": {
+      "left": 35,
+      "top": 143,
+      "width": 188,
+      "height": 395
+    },
+    "red": {
+      "left": 213,
+      "top": 352,
+      "width": 198,
+      "height": 187
+    }
+  },
+  {
+    "frame": 56,
+    "filename": "cam1_0056.png",
+    "white": {
+      "left": 46,
+      "top": 61,
+      "width": 363,
+      "height": 371
+    },
+    "blue": {
+      "left": 37,
+      "top": 144,
+      "width": 184,
+      "height": 395
+    },
+    "red": {
+      "left": 215,
+      "top": 353,
+      "width": 194,
+      "height": 186
+    }
+  },
+  {
+    "frame": 57,
+    "filename": "cam1_0057.png",
+    "white": {
+      "left": 44,
+      "top": 61,
+      "width": 363,
+      "height": 371
+    },
+    "blue": {
+      "left": 39,
+      "top": 147,
+      "width": 180,
+      "height": 392
+    },
+    "red": {
+      "left": 217,
+      "top": 351,
+      "width": 190,
+      "height": 188
+    }
+  },
+  {
+    "frame": 58,
+    "filename": "cam1_0058.png",
+    "white": {
+      "left": 42,
+      "top": 61,
+      "width": 364,
+      "height": 371
+    },
+    "blue": {
+      "left": 40,
+      "top": 147,
+      "width": 178,
+      "height": 392
+    },
+    "red": {
+      "left": 216,
+      "top": 350,
+      "width": 190,
+      "height": 190
+    }
+  },
+  {
+    "frame": 59,
+    "filename": "cam1_0059.png",
+    "white": {
+      "left": 42,
+      "top": 61,
+      "width": 363,
+      "height": 371
+    },
+    "blue": {
+      "left": 41,
+      "top": 147,
+      "width": 178,
+      "height": 393
+    },
+    "red": {
+      "left": 219,
+      "top": 349,
+      "width": 186,
+      "height": 190
+    }
+  },
+  {
+    "frame": 60,
+    "filename": "cam1_0060.png",
+    "white": {
+      "left": 41,
+      "top": 61,
+      "width": 364,
+      "height": 371
+    },
+    "blue": {
+      "left": 41,
+      "top": 148,
+      "width": 176,
+      "height": 391
+    },
+    "red": {
+      "left": 217,
+      "top": 349,
+      "width": 188,
+      "height": 191
+    }
+  },
+  {
+    "frame": 61,
+    "filename": "cam2_0000.png",
+    "white": {
+      "left": 42,
+      "top": 72,
+      "width": 363,
+      "height": 303
+    },
+    "blue": {
+      "left": 229,
+      "top": 144,
+      "width": 176,
+      "height": 382
+    },
+    "red": {
+      "left": 41,
+      "top": 305,
+      "width": 186,
+      "height": 221
+    }
+  },
+  {
+    "frame": 62,
+    "filename": "cam2_0001.png",
+    "white": {
+      "left": 41,
+      "top": 72,
+      "width": 362,
+      "height": 303
+    },
+    "blue": {
+      "left": 229,
+      "top": 142,
+      "width": 176,
+      "height": 383
+    },
+    "red": {
+      "left": 41,
+      "top": 308,
+      "width": 188,
+      "height": 218
+    }
+  },
+  {
+    "frame": 63,
+    "filename": "cam2_0002.png",
+    "white": {
+      "left": 41,
+      "top": 72,
+      "width": 361,
+      "height": 303
+    },
+    "blue": {
+      "left": 228,
+      "top": 142,
+      "width": 178,
+      "height": 384
+    },
+    "red": {
+      "left": 40,
+      "top": 307,
+      "width": 188,
+      "height": 219
+    }
+  },
+  {
+    "frame": 64,
+    "filename": "cam2_0003.png",
+    "white": {
+      "left": 39,
+      "top": 72,
+      "width": 363,
+      "height": 303
+    },
+    "blue": {
+      "left": 227,
+      "top": 139,
+      "width": 180,
+      "height": 386
+    },
+    "red": {
+      "left": 39,
+      "top": 310,
+      "width": 192,
+      "height": 216
+    }
+  },
+  {
+    "frame": 65,
+    "filename": "cam2_0004.png",
+    "white": {
+      "left": 38,
+      "top": 72,
+      "width": 362,
+      "height": 303
+    },
+    "blue": {
+      "left": 225,
+      "top": 138,
+      "width": 184,
+      "height": 387
+    },
+    "red": {
+      "left": 37,
+      "top": 312,
+      "width": 195,
+      "height": 214
+    }
+  },
+  {
+    "frame": 66,
+    "filename": "cam2_0005.png",
+    "white": {
+      "left": 35,
+      "top": 72,
+      "width": 363,
+      "height": 303
+    },
+    "blue": {
+      "left": 223,
+      "top": 136,
+      "width": 188,
+      "height": 389
+    },
+    "red": {
+      "left": 35,
+      "top": 313,
+      "width": 198,
+      "height": 212
+    }
+  },
+  {
+    "frame": 67,
+    "filename": "cam2_0006.png",
+    "white": {
+      "left": 33,
+      "top": 72,
+      "width": 362,
+      "height": 303
+    },
+    "blue": {
+      "left": 220,
+      "top": 133,
+      "width": 193,
+      "height": 392
+    },
+    "red": {
+      "left": 33,
+      "top": 319,
+      "width": 203,
+      "height": 206
+    }
+  },
+  {
+    "frame": 68,
+    "filename": "cam2_0007.png",
+    "white": {
+      "left": 30,
+      "top": 72,
+      "width": 361,
+      "height": 303
+    },
+    "blue": {
+      "left": 217,
+      "top": 128,
+      "width": 199,
+      "height": 396
+    },
+    "red": {
+      "left": 30,
+      "top": 323,
+      "width": 209,
+      "height": 202
+    }
+  },
+  {
+    "frame": 69,
+    "filename": "cam2_0008.png",
+    "white": {
+      "left": 28,
+      "top": 73,
+      "width": 358,
+      "height": 303
+    },
+    "blue": {
+      "left": 213,
+      "top": 123,
+      "width": 206,
+      "height": 401
+    },
+    "red": {
+      "left": 28,
+      "top": 328,
+      "width": 215,
+      "height": 196
+    }
+  },
+  {
+    "frame": 70,
+    "filename": "cam2_0009.png",
+    "white": {
+      "left": 25,
+      "top": 74,
+      "width": 357,
+      "height": 302
+    },
+    "blue": {
+      "left": 209,
+      "top": 119,
+      "width": 213,
+      "height": 405
+    },
+    "red": {
+      "left": 25,
+      "top": 333,
+      "width": 224,
+      "height": 191
+    }
+  },
+  {
+    "frame": 71,
+    "filename": "cam2_0010.png",
+    "white": {
+      "left": 22,
+      "top": 74,
+      "width": 352,
+      "height": 302
+    },
+    "blue": {
+      "left": 205,
+      "top": 116,
+      "width": 219,
+      "height": 407
+    },
+    "red": {
+      "left": 22,
+      "top": 339,
+      "width": 229,
+      "height": 184
+    }
+  },
+  {
+    "frame": 72,
+    "filename": "cam2_0011.png",
+    "white": {
+      "left": 20,
+      "top": 75,
+      "width": 349,
+      "height": 302
+    },
+    "blue": {
+      "left": 200,
+      "top": 110,
+      "width": 227,
+      "height": 411
+    },
+    "red": {
+      "left": 19,
+      "top": 343,
+      "width": 237,
+      "height": 179
+    }
+  },
+  {
+    "frame": 73,
+    "filename": "cam2_0012.png",
+    "white": {
+      "left": 17,
+      "top": 77,
+      "width": 343,
+      "height": 301
+    },
+    "blue": {
+      "left": 195,
+      "top": 106,
+      "width": 234,
+      "height": 414
+    },
+    "red": {
+      "left": 17,
+      "top": 352,
+      "width": 245,
+      "height": 169
+    }
+  },
+  {
+    "frame": 74,
+    "filename": "cam2_0013.png",
+    "white": {
+      "left": 15,
+      "top": 78,
+      "width": 338,
+      "height": 301
+    },
+    "blue": {
+      "left": 190,
+      "top": 100,
+      "width": 241,
+      "height": 418
+    },
+    "red": {
+      "left": 16,
+      "top": 360,
+      "width": 249,
+      "height": 159
+    }
+  },
+  {
+    "frame": 75,
+    "filename": "cam2_0014.png",
+    "white": {
+      "left": 14,
+      "top": 80,
+      "width": 329,
+      "height": 301
+    },
+    "blue": {
+      "left": 185,
+      "top": 95,
+      "width": 247,
+      "height": 422
+    },
+    "red": {
+      "left": 14,
+      "top": 368,
+      "width": 259,
+      "height": 150
+    }
+  },
+  {
+    "frame": 76,
+    "filename": "cam2_0015.png",
+    "white": {
+      "left": 13,
+      "top": 82,
+      "width": 321,
+      "height": 300
+    },
+    "blue": {
+      "left": 179,
+      "top": 91,
+      "width": 254,
+      "height": 424
+    },
+    "red": {
+      "left": 13,
+      "top": 376,
+      "width": 263,
+      "height": 139
+    }
+  },
+  {
+    "frame": 77,
+    "filename": "cam2_0016.png",
+    "white": {
+      "left": 13,
+      "top": 84,
+      "width": 310,
+      "height": 301
+    },
+    "blue": {
+      "left": 173,
+      "top": 86,
+      "width": 260,
+      "height": 427
+    },
+    "red": {
+      "left": 13,
+      "top": 385,
+      "width": 268,
+      "height": 128
+    }
+  },
+  {
+    "frame": 78,
+    "filename": "cam2_0017.png",
+    "white": {
+      "left": 14,
+      "top": 81,
+      "width": 297,
+      "height": 312
+    },
+    "blue": {
+      "left": 168,
+      "top": 81,
+      "width": 264,
+      "height": 429
+    },
+    "red": {
+      "left": 15,
+      "top": 389,
+      "width": 271,
+      "height": 127
+    }
+  },
+  {
+    "frame": 79,
+    "filename": "cam2_0018.png",
+    "white": {
+      "left": 15,
+      "top": 78,
+      "width": 282,
+      "height": 326
+    },
+    "blue": {
+      "left": 162,
+      "top": 78,
+      "width": 269,
+      "height": 429
+    },
+    "red": {
+      "left": 16,
+      "top": 391,
+      "width": 278,
+      "height": 129
+    }
+  },
+  {
+    "frame": 80,
+    "filename": "cam2_0019.png",
+    "white": {
+      "left": 18,
+      "top": 74,
+      "width": 268,
+      "height": 338
+    },
+    "blue": {
+      "left": 157,
+      "top": 75,
+      "width": 271,
+      "height": 428
+    },
+    "red": {
+      "left": 19,
+      "top": 394,
+      "width": 280,
+      "height": 129
+    }
+  },
+  {
+    "frame": 81,
+    "filename": "cam2_0020.png",
+    "white": {
+      "left": 21,
+      "top": 72,
+      "width": 249,
+      "height": 352
+    },
+    "blue": {
+      "left": 151,
+      "top": 72,
+      "width": 274,
+      "height": 427
+    },
+    "red": {
+      "left": 22,
+      "top": 398,
+      "width": 280,
+      "height": 128
+    }
+  },
+  {
+    "frame": 82,
+    "filename": "cam2_0021.png",
+    "white": {
+      "left": 26,
+      "top": 70,
+      "width": 229,
+      "height": 362
+    },
+    "blue": {
+      "left": 146,
+      "top": 70,
+      "width": 274,
+      "height": 424
+    },
+    "red": {
+      "left": 28,
+      "top": 402,
+      "width": 279,
+      "height": 126
+    }
+  },
+  {
+    "frame": 83,
+    "filename": "cam2_0022.png",
+    "white": {
+      "left": 32,
+      "top": 69,
+      "width": 208,
+      "height": 373
+    },
+    "blue": {
+      "left": 141,
+      "top": 69,
+      "width": 273,
+      "height": 422
+    },
+    "red": {
+      "left": 32,
+      "top": 406,
+      "width": 281,
+      "height": 123
+    }
+  },
+  {
+    "frame": 84,
+    "filename": "cam2_0023.png",
+    "white": {
+      "left": 39,
+      "top": 68,
+      "width": 186,
+      "height": 385
+    },
+    "blue": {
+      "left": 137,
+      "top": 68,
+      "width": 270,
+      "height": 417
+    },
+    "red": {
+      "left": 40,
+      "top": 410,
+      "width": 275,
+      "height": 120
+    }
+  },
+  {
+    "frame": 85,
+    "filename": "cam2_0024.png",
+    "white": {
+      "left": 47,
+      "top": 68,
+      "width": 164,
+      "height": 393
+    },
+    "blue": {
+      "left": 133,
+      "top": 68,
+      "width": 266,
+      "height": 414
+    },
+    "red": {
+      "left": 47,
+      "top": 415,
+      "width": 272,
+      "height": 114
+    }
+  },
+  {
+    "frame": 86,
+    "filename": "cam2_0025.png",
+    "white": {
+      "left": 56,
+      "top": 70,
+      "width": 138,
+      "height": 400
+    },
+    "blue": {
+      "left": 129,
+      "top": 69,
+      "width": 261,
+      "height": 407
+    },
+    "red": {
+      "left": 58,
+      "top": 420,
+      "width": 266,
+      "height": 108
+    }
+  },
+  {
+    "frame": 87,
+    "filename": "cam2_0026.png",
+    "white": {
+      "left": 66,
+      "top": 71,
+      "width": 114,
+      "height": 409
+    },
+    "blue": {
+      "left": 126,
+      "top": 71,
+      "width": 254,
+      "height": 400
+    },
+    "red": {
+      "left": 66,
+      "top": 425,
+      "width": 259,
+      "height": 101
+    }
+  },
+  {
+    "frame": 88,
+    "filename": "cam2_0027.png",
+    "white": {
+      "left": 78,
+      "top": 74,
+      "width": 84,
+      "height": 412
+    },
+    "blue": {
+      "left": 123,
+      "top": 74,
+      "width": 246,
+      "height": 390
+    },
+    "red": {
+      "left": 78,
+      "top": 431,
+      "width": 250,
+      "height": 92
+    }
+  },
+  {
+    "frame": 89,
+    "filename": "cam2_0028.png",
+    "white": {
+      "left": 90,
+      "top": 79,
+      "width": 57,
+      "height": 415
+    },
+    "blue": {
+      "left": 121,
+      "top": 78,
+      "width": 235,
+      "height": 379
+    },
+    "red": {
+      "left": 91,
+      "top": 436,
+      "width": 238,
+      "height": 84
+    }
+  },
+  {
+    "frame": 90,
+    "filename": "cam2_0029.png",
+    "white": {
+      "left": 103,
+      "top": 85,
+      "width": 29,
+      "height": 415
+    },
+    "blue": {
+      "left": 120,
+      "top": 83,
+      "width": 223,
+      "height": 369
+    },
+    "red": {
+      "left": 103,
+      "top": 442,
+      "width": 226,
+      "height": 73
+    }
+  },
+  {
+    "frame": 91,
+    "filename": "cam2_0030.png",
+    "white": null,
+    "blue": {
+      "left": 117,
+      "top": 88,
+      "width": 212,
+      "height": 358
+    },
+    "red": {
+      "left": 117,
+      "top": 448,
+      "width": 212,
+      "height": 61
+    }
+  },
+  {
+    "frame": 92,
+    "filename": "cam2_0031.png",
+    "white": {
+      "left": 314,
+      "top": 85,
+      "width": 29,
+      "height": 415
+    },
+    "blue": {
+      "left": 103,
+      "top": 83,
+      "width": 224,
+      "height": 369
+    },
+    "red": {
+      "left": 117,
+      "top": 442,
+      "width": 226,
+      "height": 73
+    }
+  },
+  {
+    "frame": 93,
+    "filename": "cam2_0032.png",
+    "white": {
+      "left": 299,
+      "top": 79,
+      "width": 57,
+      "height": 415
+    },
+    "blue": {
+      "left": 90,
+      "top": 78,
+      "width": 235,
+      "height": 380
+    },
+    "red": {
+      "left": 118,
+      "top": 436,
+      "width": 238,
+      "height": 84
+    }
+  },
+  {
+    "frame": 94,
+    "filename": "cam2_0033.png",
+    "white": {
+      "left": 284,
+      "top": 75,
+      "width": 85,
+      "height": 413
+    },
+    "blue": {
+      "left": 78,
+      "top": 74,
+      "width": 245,
+      "height": 391
+    },
+    "red": {
+      "left": 118,
+      "top": 431,
+      "width": 249,
+      "height": 92
+    }
+  },
+  {
+    "frame": 95,
+    "filename": "cam2_0034.png",
+    "white": {
+      "left": 268,
+      "top": 72,
+      "width": 112,
+      "height": 408
+    },
+    "blue": {
+      "left": 66,
+      "top": 72,
+      "width": 254,
+      "height": 399
+    },
+    "red": {
+      "left": 121,
+      "top": 425,
+      "width": 259,
+      "height": 101
+    }
+  },
+  {
+    "frame": 96,
+    "filename": "cam2_0035.png",
+    "white": {
+      "left": 253,
+      "top": 70,
+      "width": 137,
+      "height": 400
+    },
+    "blue": {
+      "left": 56,
+      "top": 69,
+      "width": 261,
+      "height": 407
+    },
+    "red": {
+      "left": 123,
+      "top": 420,
+      "width": 265,
+      "height": 108
+    }
+  },
+  {
+    "frame": 97,
+    "filename": "cam2_0036.png",
+    "white": {
+      "left": 237,
+      "top": 68,
+      "width": 162,
+      "height": 393
+    },
+    "blue": {
+      "left": 47,
+      "top": 68,
+      "width": 267,
+      "height": 413
+    },
+    "red": {
+      "left": 126,
+      "top": 415,
+      "width": 273,
+      "height": 114
+    }
+  },
+  {
+    "frame": 98,
+    "filename": "cam2_0037.png",
+    "white": {
+      "left": 221,
+      "top": 68,
+      "width": 186,
+      "height": 385
+    },
+    "blue": {
+      "left": 39,
+      "top": 68,
+      "width": 270,
+      "height": 417
+    },
+    "red": {
+      "left": 131,
+      "top": 410,
+      "width": 275,
+      "height": 120
+    }
+  },
+  {
+    "frame": 99,
+    "filename": "cam2_0038.png",
+    "white": {
+      "left": 206,
+      "top": 69,
+      "width": 208,
+      "height": 373
+    },
+    "blue": {
+      "left": 32,
+      "top": 69,
+      "width": 273,
+      "height": 421
+    },
+    "red": {
+      "left": 133,
+      "top": 406,
+      "width": 281,
+      "height": 123
+    }
+  },
+  {
+    "frame": 100,
+    "filename": "cam2_0039.png",
+    "white": {
+      "left": 191,
+      "top": 70,
+      "width": 229,
+      "height": 362
+    },
+    "blue": {
+      "left": 26,
+      "top": 70,
+      "width": 274,
+      "height": 425
+    },
+    "red": {
+      "left": 139,
+      "top": 402,
+      "width": 281,
+      "height": 126
+    }
+  },
+  {
+    "frame": 101,
+    "filename": "cam2_0040.png",
+    "white": {
+      "left": 176,
+      "top": 72,
+      "width": 248,
+      "height": 350
+    },
+    "blue": {
+      "left": 22,
+      "top": 72,
+      "width": 273,
+      "height": 427
+    },
+    "red": {
+      "left": 144,
+      "top": 398,
+      "width": 279,
+      "height": 128
+    }
+  },
+  {
+    "frame": 102,
+    "filename": "cam2_0041.png",
+    "white": {
+      "left": 162,
+      "top": 74,
+      "width": 266,
+      "height": 338
+    },
+    "blue": {
+      "left": 18,
+      "top": 74,
+      "width": 272,
+      "height": 429
+    },
+    "red": {
+      "left": 147,
+      "top": 394,
+      "width": 280,
+      "height": 129
+    }
+  },
+  {
+    "frame": 103,
+    "filename": "cam2_0042.png",
+    "white": {
+      "left": 149,
+      "top": 78,
+      "width": 282,
+      "height": 326
+    },
+    "blue": {
+      "left": 15,
+      "top": 78,
+      "width": 269,
+      "height": 428
+    },
+    "red": {
+      "left": 155,
+      "top": 391,
+      "width": 275,
+      "height": 129
+    }
+  },
+  {
+    "frame": 104,
+    "filename": "cam2_0043.png",
+    "white": {
+      "left": 135,
+      "top": 81,
+      "width": 297,
+      "height": 312
+    },
+    "blue": {
+      "left": 14,
+      "top": 82,
+      "width": 264,
+      "height": 428
+    },
+    "red": {
+      "left": 160,
+      "top": 389,
+      "width": 272,
+      "height": 127
+    }
+  },
+  {
+    "frame": 105,
+    "filename": "cam2_0044.png",
+    "white": {
+      "left": 123,
+      "top": 84,
+      "width": 310,
+      "height": 301
+    },
+    "blue": {
+      "left": 13,
+      "top": 86,
+      "width": 260,
+      "height": 427
+    },
+    "red": {
+      "left": 165,
+      "top": 385,
+      "width": 268,
+      "height": 128
+    }
+  },
+  {
+    "frame": 106,
+    "filename": "cam2_0045.png",
+    "white": {
+      "left": 114,
+      "top": 82,
+      "width": 319,
+      "height": 300
+    },
+    "blue": {
+      "left": 13,
+      "top": 91,
+      "width": 254,
+      "height": 424
+    },
+    "red": {
+      "left": 170,
+      "top": 376,
+      "width": 263,
+      "height": 139
+    }
+  },
+  {
+    "frame": 107,
+    "filename": "cam2_0046.png",
+    "white": {
+      "left": 103,
+      "top": 80,
+      "width": 329,
+      "height": 301
+    },
+    "blue": {
+      "left": 14,
+      "top": 95,
+      "width": 247,
+      "height": 422
+    },
+    "red": {
+      "left": 176,
+      "top": 368,
+      "width": 256,
+      "height": 149
+    }
+  },
+  {
+    "frame": 108,
+    "filename": "cam2_0047.png",
+    "white": {
+      "left": 93,
+      "top": 78,
+      "width": 338,
+      "height": 301
+    },
+    "blue": {
+      "left": 15,
+      "top": 100,
+      "width": 241,
+      "height": 419
+    },
+    "red": {
+      "left": 181,
+      "top": 360,
+      "width": 250,
+      "height": 159
+    }
+  },
+  {
+    "frame": 109,
+    "filename": "cam2_0048.png",
+    "white": {
+      "left": 85,
+      "top": 77,
+      "width": 344,
+      "height": 301
+    },
+    "blue": {
+      "left": 17,
+      "top": 104,
+      "width": 234,
+      "height": 416
+    },
+    "red": {
+      "left": 185,
+      "top": 352,
+      "width": 244,
+      "height": 169
+    }
+  },
+  {
+    "frame": 110,
+    "filename": "cam2_0049.png",
+    "white": {
+      "left": 77,
+      "top": 75,
+      "width": 350,
+      "height": 302
+    },
+    "blue": {
+      "left": 19,
+      "top": 110,
+      "width": 227,
+      "height": 411
+    },
+    "red": {
+      "left": 191,
+      "top": 345,
+      "width": 236,
+      "height": 177
+    }
+  },
+  {
+    "frame": 111,
+    "filename": "cam2_0050.png",
+    "white": {
+      "left": 72,
+      "top": 74,
+      "width": 352,
+      "height": 302
+    },
+    "blue": {
+      "left": 22,
+      "top": 114,
+      "width": 219,
+      "height": 409
+    },
+    "red": {
+      "left": 195,
+      "top": 339,
+      "width": 229,
+      "height": 184
+    }
+  },
+  {
+    "frame": 112,
+    "filename": "cam2_0051.png",
+    "white": {
+      "left": 64,
+      "top": 74,
+      "width": 358,
+      "height": 302
+    },
+    "blue": {
+      "left": 25,
+      "top": 119,
+      "width": 212,
+      "height": 404
+    },
+    "red": {
+      "left": 197,
+      "top": 333,
+      "width": 224,
+      "height": 191
+    }
+  },
+  {
+    "frame": 113,
+    "filename": "cam2_0052.png",
+    "white": {
+      "left": 60,
+      "top": 73,
+      "width": 358,
+      "height": 302
+    },
+    "blue": {
+      "left": 27,
+      "top": 123,
+      "width": 206,
+      "height": 401
+    },
+    "red": {
+      "left": 203,
+      "top": 328,
+      "width": 216,
+      "height": 196
+    }
+  },
+  {
+    "frame": 114,
+    "filename": "cam2_0053.png",
+    "white": {
+      "left": 56,
+      "top": 72,
+      "width": 360,
+      "height": 303
+    },
+    "blue": {
+      "left": 30,
+      "top": 129,
+      "width": 199,
+      "height": 395
+    },
+    "red": {
+      "left": 207,
+      "top": 323,
+      "width": 209,
+      "height": 202
+    }
+  },
+  {
+    "frame": 115,
+    "filename": "cam2_0054.png",
+    "white": {
+      "left": 51,
+      "top": 72,
+      "width": 362,
+      "height": 303
+    },
+    "blue": {
+      "left": 33,
+      "top": 132,
+      "width": 193,
+      "height": 393
+    },
+    "red": {
+      "left": 210,
+      "top": 319,
+      "width": 203,
+      "height": 206
+    }
+  },
+  {
+    "frame": 116,
+    "filename": "cam2_0055.png",
+    "white": {
+      "left": 48,
+      "top": 72,
+      "width": 363,
+      "height": 303
+    },
+    "blue": {
+      "left": 35,
+      "top": 134,
+      "width": 188,
+      "height": 391
+    },
+    "red": {
+      "left": 213,
+      "top": 315,
+      "width": 198,
+      "height": 210
+    }
+  },
+  {
+    "frame": 117,
+    "filename": "cam2_0056.png",
+    "white": {
+      "left": 46,
+      "top": 72,
+      "width": 363,
+      "height": 303
+    },
+    "blue": {
+      "left": 37,
+      "top": 138,
+      "width": 184,
+      "height": 388
+    },
+    "red": {
+      "left": 214,
+      "top": 313,
+      "width": 195,
+      "height": 213
+    }
+  },
+  {
+    "frame": 118,
+    "filename": "cam2_0057.png",
+    "white": {
+      "left": 44,
+      "top": 72,
+      "width": 363,
+      "height": 303
+    },
+    "blue": {
+      "left": 39,
+      "top": 141,
+      "width": 180,
+      "height": 384
+    },
+    "red": {
+      "left": 215,
+      "top": 310,
+      "width": 192,
+      "height": 216
+    }
+  },
+  {
+    "frame": 119,
+    "filename": "cam2_0058.png",
+    "white": {
+      "left": 44,
+      "top": 72,
+      "width": 362,
+      "height": 303
+    },
+    "blue": {
+      "left": 40,
+      "top": 141,
+      "width": 178,
+      "height": 385
+    },
+    "red": {
+      "left": 218,
+      "top": 309,
+      "width": 188,
+      "height": 217
+    }
+  },
+  {
+    "frame": 120,
+    "filename": "cam2_0059.png",
+    "white": {
+      "left": 42,
+      "top": 72,
+      "width": 363,
+      "height": 303
+    },
+    "blue": {
+      "left": 41,
+      "top": 143,
+      "width": 176,
+      "height": 383
+    },
+    "red": {
+      "left": 219,
+      "top": 308,
+      "width": 186,
+      "height": 218
+    }
+  },
+  {
+    "frame": 121,
+    "filename": "cam2_0060.png",
+    "white": {
+      "left": 41,
+      "top": 72,
+      "width": 364,
+      "height": 303
+    },
+    "blue": {
+      "left": 41,
+      "top": 143,
+      "width": 176,
+      "height": 383
+    },
+    "red": {
+      "left": 217,
+      "top": 305,
+      "width": 188,
+      "height": 221
+    }
+  },
+  {
+    "frame": 122,
+    "filename": "cam3_0000.png",
+    "white": {
+      "left": 42,
+      "top": 101,
+      "width": 363,
+      "height": 215
+    },
+    "blue": {
+      "left": 229,
+      "top": 153,
+      "width": 176,
+      "height": 347
+    },
+    "red": {
+      "left": 41,
+      "top": 267,
+      "width": 186,
+      "height": 233
+    }
+  },
+  {
+    "frame": 123,
+    "filename": "cam3_0001.png",
+    "white": {
+      "left": 41,
+      "top": 101,
+      "width": 362,
+      "height": 215
+    },
+    "blue": {
+      "left": 229,
+      "top": 151,
+      "width": 176,
+      "height": 348
+    },
+    "red": {
+      "left": 41,
+      "top": 269,
+      "width": 186,
+      "height": 231
+    }
+  },
+  {
+    "frame": 124,
+    "filename": "cam3_0002.png",
+    "white": {
+      "left": 40,
+      "top": 101,
+      "width": 362,
+      "height": 215
+    },
+    "blue": {
+      "left": 228,
+      "top": 149,
+      "width": 178,
+      "height": 351
+    },
+    "red": {
+      "left": 40,
+      "top": 268,
+      "width": 188,
+      "height": 232
+    }
+  },
+  {
+    "frame": 125,
+    "filename": "cam3_0003.png",
+    "white": {
+      "left": 39,
+      "top": 101,
+      "width": 363,
+      "height": 215
+    },
+    "blue": {
+      "left": 227,
+      "top": 147,
+      "width": 180,
+      "height": 352
+    },
+    "red": {
+      "left": 39,
+      "top": 272,
+      "width": 190,
+      "height": 228
+    }
+  },
+  {
+    "frame": 126,
+    "filename": "cam3_0004.png",
+    "white": {
+      "left": 37,
+      "top": 101,
+      "width": 362,
+      "height": 215
+    },
+    "blue": {
+      "left": 225,
+      "top": 144,
+      "width": 184,
+      "height": 355
+    },
+    "red": {
+      "left": 37,
+      "top": 274,
+      "width": 196,
+      "height": 226
+    }
+  },
+  {
+    "frame": 127,
+    "filename": "cam3_0005.png",
+    "white": {
+      "left": 36,
+      "top": 102,
+      "width": 362,
+      "height": 214
+    },
+    "blue": {
+      "left": 223,
+      "top": 143,
+      "width": 188,
+      "height": 356
+    },
+    "red": {
+      "left": 35,
+      "top": 276,
+      "width": 200,
+      "height": 224
+    }
+  },
+  {
+    "frame": 128,
+    "filename": "cam3_0006.png",
+    "white": {
+      "left": 33,
+      "top": 102,
+      "width": 362,
+      "height": 214
+    },
+    "blue": {
+      "left": 220,
+      "top": 139,
+      "width": 193,
+      "height": 360
+    },
+    "red": {
+      "left": 33,
+      "top": 283,
+      "width": 203,
+      "height": 216
+    }
+  },
+  {
+    "frame": 129,
+    "filename": "cam3_0007.png",
+    "white": {
+      "left": 31,
+      "top": 102,
+      "width": 359,
+      "height": 214
+    },
+    "blue": {
+      "left": 217,
+      "top": 134,
+      "width": 199,
+      "height": 364
+    },
+    "red": {
+      "left": 30,
+      "top": 288,
+      "width": 209,
+      "height": 211
+    }
+  },
+  {
+    "frame": 130,
+    "filename": "cam3_0008.png",
+    "white": {
+      "left": 28,
+      "top": 103,
+      "width": 357,
+      "height": 213
+    },
+    "blue": {
+      "left": 213,
+      "top": 128,
+      "width": 206,
+      "height": 370
+    },
+    "red": {
+      "left": 27,
+      "top": 291,
+      "width": 216,
+      "height": 207
+    }
+  },
+  {
+    "frame": 131,
+    "filename": "cam3_0009.png",
+    "white": {
+      "left": 25,
+      "top": 104,
+      "width": 357,
+      "height": 213
+    },
+    "blue": {
+      "left": 209,
+      "top": 123,
+      "width": 213,
+      "height": 374
+    },
+    "red": {
+      "left": 25,
+      "top": 300,
+      "width": 224,
+      "height": 198
+    }
+  },
+  {
+    "frame": 132,
+    "filename": "cam3_0010.png",
+    "white": {
+      "left": 22,
+      "top": 105,
+      "width": 352,
+      "height": 213
+    },
+    "blue": {
+      "left": 205,
+      "top": 117,
+      "width": 219,
+      "height": 380
+    },
+    "red": {
+      "left": 22,
+      "top": 307,
+      "width": 230,
+      "height": 190
+    }
+  },
+  {
+    "frame": 133,
+    "filename": "cam3_0011.png",
+    "white": {
+      "left": 19,
+      "top": 106,
+      "width": 350,
+      "height": 212
+    },
+    "blue": {
+      "left": 200,
+      "top": 112,
+      "width": 227,
+      "height": 383
+    },
+    "red": {
+      "left": 19,
+      "top": 315,
+      "width": 237,
+      "height": 180
+    }
+  },
+  {
+    "frame": 134,
+    "filename": "cam3_0012.png",
+    "white": {
+      "left": 18,
+      "top": 105,
+      "width": 342,
+      "height": 217
+    },
+    "blue": {
+      "left": 195,
+      "top": 106,
+      "width": 234,
+      "height": 387
+    },
+    "red": {
+      "left": 17,
+      "top": 321,
+      "width": 244,
+      "height": 175
+    }
+  },
+  {
+    "frame": 135,
+    "filename": "cam3_0013.png",
+    "white": {
+      "left": 15,
+      "top": 99,
+      "width": 338,
+      "height": 234
+    },
+    "blue": {
+      "left": 190,
+      "top": 100,
+      "width": 241,
+      "height": 391
+    },
+    "red": {
+      "left": 15,
+      "top": 323,
+      "width": 251,
+      "height": 179
+    }
+  },
+  {
+    "frame": 136,
+    "filename": "cam3_0014.png",
+    "white": {
+      "left": 14,
+      "top": 93,
+      "width": 330,
+      "height": 248
+    },
+    "blue": {
+      "left": 185,
+      "top": 94,
+      "width": 247,
+      "height": 395
+    },
+    "red": {
+      "left": 14,
+      "top": 324,
+      "width": 259,
+      "height": 184
+    }
+  },
+  {
+    "frame": 137,
+    "filename": "cam3_0015.png",
+    "white": {
+      "left": 13,
+      "top": 88,
+      "width": 321,
+      "height": 263
+    },
+    "blue": {
+      "left": 179,
+      "top": 88,
+      "width": 254,
+      "height": 399
+    },
+    "red": {
+      "left": 13,
+      "top": 327,
+      "width": 264,
+      "height": 187
+    }
+  },
+  {
+    "frame": 138,
+    "filename": "cam3_0016.png",
+    "white": {
+      "left": 13,
+      "top": 82,
+      "width": 310,
+      "height": 280
+    },
+    "blue": {
+      "left": 173,
+      "top": 83,
+      "width": 260,
+      "height": 401
+    },
+    "red": {
+      "left": 13,
+      "top": 329,
+      "width": 270,
+      "height": 190
+    }
+  },
+  {
+    "frame": 139,
+    "filename": "cam3_0017.png",
+    "white": {
+      "left": 14,
+      "top": 77,
+      "width": 296,
+      "height": 296
+    },
+    "blue": {
+      "left": 168,
+      "top": 77,
+      "width": 264,
+      "height": 403
+    },
+    "red": {
+      "left": 14,
+      "top": 332,
+      "width": 273,
+      "height": 192
+    }
+  },
+  {
+    "frame": 140,
+    "filename": "cam3_0018.png",
+    "white": {
+      "left": 15,
+      "top": 72,
+      "width": 284,
+      "height": 315
+    },
+    "blue": {
+      "left": 162,
+      "top": 73,
+      "width": 269,
+      "height": 404
+    },
+    "red": {
+      "left": 16,
+      "top": 335,
+      "width": 277,
+      "height": 194
+    }
+  },
+  {
+    "frame": 141,
+    "filename": "cam3_0019.png",
+    "white": {
+      "left": 18,
+      "top": 69,
+      "width": 266,
+      "height": 328
+    },
+    "blue": {
+      "left": 157,
+      "top": 69,
+      "width": 271,
+      "height": 404
+    },
+    "red": {
+      "left": 18,
+      "top": 339,
+      "width": 281,
+      "height": 194
+    }
+  },
+  {
+    "frame": 142,
+    "filename": "cam3_0020.png",
+    "white": {
+      "left": 21,
+      "top": 66,
+      "width": 249,
+      "height": 345
+    },
+    "blue": {
+      "left": 151,
+      "top": 66,
+      "width": 274,
+      "height": 402
+    },
+    "red": {
+      "left": 22,
+      "top": 343,
+      "width": 282,
+      "height": 193
+    }
+  },
+  {
+    "frame": 143,
+    "filename": "cam3_0021.png",
+    "white": {
+      "left": 26,
+      "top": 63,
+      "width": 229,
+      "height": 360
+    },
+    "blue": {
+      "left": 146,
+      "top": 63,
+      "width": 274,
+      "height": 400
+    },
+    "red": {
+      "left": 27,
+      "top": 348,
+      "width": 282,
+      "height": 190
+    }
+  },
+  {
+    "frame": 144,
+    "filename": "cam3_0022.png",
+    "white": {
+      "left": 32,
+      "top": 61,
+      "width": 208,
+      "height": 374
+    },
+    "blue": {
+      "left": 141,
+      "top": 61,
+      "width": 273,
+      "height": 396
+    },
+    "red": {
+      "left": 32,
+      "top": 353,
+      "width": 280,
+      "height": 187
+    }
+  },
+  {
+    "frame": 145,
+    "filename": "cam3_0023.png",
+    "white": {
+      "left": 39,
+      "top": 61,
+      "width": 186,
+      "height": 384
+    },
+    "blue": {
+      "left": 137,
+      "top": 61,
+      "width": 270,
+      "height": 390
+    },
+    "red": {
+      "left": 40,
+      "top": 359,
+      "width": 277,
+      "height": 182
+    }
+  },
+  {
+    "frame": 146,
+    "filename": "cam3_0024.png",
+    "white": {
+      "left": 47,
+      "top": 61,
+      "width": 162,
+      "height": 396
+    },
+    "blue": {
+      "left": 133,
+      "top": 61,
+      "width": 266,
+      "height": 385
+    },
+    "red": {
+      "left": 47,
+      "top": 364,
+      "width": 273,
+      "height": 176
+    }
+  },
+  {
+    "frame": 147,
+    "filename": "cam3_0025.png",
+    "white": {
+      "left": 56,
+      "top": 63,
+      "width": 137,
+      "height": 405
+    },
+    "blue": {
+      "left": 129,
+      "top": 62,
+      "width": 261,
+      "height": 377
+    },
+    "red": {
+      "left": 58,
+      "top": 370,
+      "width": 265,
+      "height": 169
+    }
+  },
+  {
+    "frame": 148,
+    "filename": "cam3_0026.png",
+    "white": {
+      "left": 66,
+      "top": 66,
+      "width": 112,
+      "height": 413
+    },
+    "blue": {
+      "left": 126,
+      "top": 65,
+      "width": 254,
+      "height": 368
+    },
+    "red": {
+      "left": 67,
+      "top": 377,
+      "width": 259,
+      "height": 160
+    }
+  },
+  {
+    "frame": 149,
+    "filename": "cam3_0027.png",
+    "white": {
+      "left": 78,
+      "top": 69,
+      "width": 84,
+      "height": 419
+    },
+    "blue": {
+      "left": 123,
+      "top": 68,
+      "width": 246,
+      "height": 358
+    },
+    "red": {
+      "left": 78,
+      "top": 384,
+      "width": 250,
+      "height": 149
+    }
+  },
+  {
+    "frame": 150,
+    "filename": "cam3_0028.png",
+    "white": {
+      "left": 90,
+      "top": 75,
+      "width": 57,
+      "height": 422
+    },
+    "blue": {
+      "left": 121,
+      "top": 73,
+      "width": 235,
+      "height": 344
+    },
+    "red": {
+      "left": 90,
+      "top": 390,
+      "width": 239,
+      "height": 138
+    }
+  },
+  {
+    "frame": 151,
+    "filename": "cam3_0029.png",
+    "white": {
+      "left": 103,
+      "top": 84,
+      "width": 29,
+      "height": 420
+    },
+    "blue": {
+      "left": 120,
+      "top": 79,
+      "width": 223,
+      "height": 331
+    },
+    "red": {
+      "left": 103,
+      "top": 397,
+      "width": 226,
+      "height": 126
+    }
+  },
+  {
+    "frame": 152,
+    "filename": "cam3_0030.png",
+    "white": null,
+    "blue": {
+      "left": 117,
+      "top": 85,
+      "width": 212,
+      "height": 317
+    },
+    "red": {
+      "left": 117,
+      "top": 404,
+      "width": 212,
+      "height": 112
+    }
+  },
+  {
+    "frame": 153,
+    "filename": "cam3_0031.png",
+    "white": {
+      "left": 315,
+      "top": 82,
+      "width": 28,
+      "height": 421
+    },
+    "blue": {
+      "left": 103,
+      "top": 78,
+      "width": 224,
+      "height": 332
+    },
+    "red": {
+      "left": 117,
+      "top": 397,
+      "width": 226,
+      "height": 126
+    }
+  },
+  {
+    "frame": 154,
+    "filename": "cam3_0032.png",
+    "white": {
+      "left": 300,
+      "top": 75,
+      "width": 56,
+      "height": 421
+    },
+    "blue": {
+      "left": 90,
+      "top": 73,
+      "width": 235,
+      "height": 344
+    },
+    "red": {
+      "left": 117,
+      "top": 390,
+      "width": 239,
+      "height": 138
+    }
+  },
+  {
+    "frame": 155,
+    "filename": "cam3_0033.png",
+    "white": {
+      "left": 284,
+      "top": 70,
+      "width": 85,
+      "height": 420
+    },
+    "blue": {
+      "left": 78,
+      "top": 68,
+      "width": 245,
+      "height": 358
+    },
+    "red": {
+      "left": 119,
+      "top": 384,
+      "width": 249,
+      "height": 149
+    }
+  },
+  {
+    "frame": 156,
+    "filename": "cam3_0034.png",
+    "white": {
+      "left": 269,
+      "top": 66,
+      "width": 111,
+      "height": 413
+    },
+    "blue": {
+      "left": 66,
+      "top": 65,
+      "width": 255,
+      "height": 366
+    },
+    "red": {
+      "left": 121,
+      "top": 377,
+      "width": 259,
+      "height": 160
+    }
+  },
+  {
+    "frame": 157,
+    "filename": "cam3_0035.png",
+    "white": {
+      "left": 253,
+      "top": 63,
+      "width": 137,
+      "height": 405
+    },
+    "blue": {
+      "left": 56,
+      "top": 62,
+      "width": 261,
+      "height": 377
+    },
+    "red": {
+      "left": 123,
+      "top": 370,
+      "width": 267,
+      "height": 169
+    }
+  },
+  {
+    "frame": 158,
+    "filename": "cam3_0036.png",
+    "white": {
+      "left": 237,
+      "top": 61,
+      "width": 162,
+      "height": 395
+    },
+    "blue": {
+      "left": 47,
+      "top": 61,
+      "width": 267,
+      "height": 385
+    },
+    "red": {
+      "left": 126,
+      "top": 364,
+      "width": 273,
+      "height": 176
+    }
+  },
+  {
+    "frame": 159,
+    "filename": "cam3_0037.png",
+    "white": {
+      "left": 221,
+      "top": 61,
+      "width": 186,
+      "height": 384
+    },
+    "blue": {
+      "left": 39,
+      "top": 61,
+      "width": 271,
+      "height": 391
+    },
+    "red": {
+      "left": 129,
+      "top": 359,
+      "width": 278,
+      "height": 182
+    }
+  },
+  {
+    "frame": 160,
+    "filename": "cam3_0038.png",
+    "white": {
+      "left": 206,
+      "top": 61,
+      "width": 208,
+      "height": 372
+    },
+    "blue": {
+      "left": 32,
+      "top": 61,
+      "width": 273,
+      "height": 396
+    },
+    "red": {
+      "left": 134,
+      "top": 353,
+      "width": 280,
+      "height": 187
+    }
+  },
+  {
+    "frame": 161,
+    "filename": "cam3_0039.png",
+    "white": {
+      "left": 191,
+      "top": 63,
+      "width": 229,
+      "height": 360
+    },
+    "blue": {
+      "left": 26,
+      "top": 63,
+      "width": 274,
+      "height": 400
+    },
+    "red": {
+      "left": 138,
+      "top": 348,
+      "width": 282,
+      "height": 190
+    }
+  },
+  {
+    "frame": 162,
+    "filename": "cam3_0040.png",
+    "white": {
+      "left": 176,
+      "top": 66,
+      "width": 249,
+      "height": 345
+    },
+    "blue": {
+      "left": 21,
+      "top": 66,
+      "width": 274,
+      "height": 402
+    },
+    "red": {
+      "left": 142,
+      "top": 343,
+      "width": 282,
+      "height": 193
+    }
+  },
+  {
+    "frame": 163,
+    "filename": "cam3_0041.png",
+    "white": {
+      "left": 163,
+      "top": 69,
+      "width": 265,
+      "height": 328
+    },
+    "blue": {
+      "left": 18,
+      "top": 69,
+      "width": 272,
+      "height": 403
+    },
+    "red": {
+      "left": 148,
+      "top": 339,
+      "width": 280,
+      "height": 194
+    }
+  },
+  {
+    "frame": 164,
+    "filename": "cam3_0042.png",
+    "white": {
+      "left": 149,
+      "top": 73,
+      "width": 282,
+      "height": 314
+    },
+    "blue": {
+      "left": 15,
+      "top": 73,
+      "width": 269,
+      "height": 403
+    },
+    "red": {
+      "left": 153,
+      "top": 336,
+      "width": 277,
+      "height": 193
+    }
+  },
+  {
+    "frame": 165,
+    "filename": "cam3_0043.png",
+    "white": {
+      "left": 135,
+      "top": 77,
+      "width": 297,
+      "height": 296
+    },
+    "blue": {
+      "left": 14,
+      "top": 77,
+      "width": 264,
+      "height": 403
+    },
+    "red": {
+      "left": 159,
+      "top": 332,
+      "width": 273,
+      "height": 192
+    }
+  },
+  {
+    "frame": 166,
+    "filename": "cam3_0044.png",
+    "white": {
+      "left": 123,
+      "top": 82,
+      "width": 310,
+      "height": 280
+    },
+    "blue": {
+      "left": 13,
+      "top": 83,
+      "width": 260,
+      "height": 401
+    },
+    "red": {
+      "left": 163,
+      "top": 329,
+      "width": 270,
+      "height": 190
+    }
+  },
+  {
+    "frame": 167,
+    "filename": "cam3_0045.png",
+    "white": {
+      "left": 114,
+      "top": 88,
+      "width": 319,
+      "height": 263
+    },
+    "blue": {
+      "left": 13,
+      "top": 88,
+      "width": 254,
+      "height": 399
+    },
+    "red": {
+      "left": 169,
+      "top": 327,
+      "width": 264,
+      "height": 187
+    }
+  },
+  {
+    "frame": 168,
+    "filename": "cam3_0046.png",
+    "white": {
+      "left": 102,
+      "top": 93,
+      "width": 330,
+      "height": 248
+    },
+    "blue": {
+      "left": 14,
+      "top": 94,
+      "width": 247,
+      "height": 395
+    },
+    "red": {
+      "left": 175,
+      "top": 324,
+      "width": 257,
+      "height": 184
+    }
+  },
+  {
+    "frame": 169,
+    "filename": "cam3_0047.png",
+    "white": {
+      "left": 93,
+      "top": 99,
+      "width": 338,
+      "height": 232
+    },
+    "blue": {
+      "left": 15,
+      "top": 100,
+      "width": 241,
+      "height": 391
+    },
+    "red": {
+      "left": 181,
+      "top": 323,
+      "width": 250,
+      "height": 179
+    }
+  },
+  {
+    "frame": 170,
+    "filename": "cam3_0048.png",
+    "white": {
+      "left": 86,
+      "top": 105,
+      "width": 343,
+      "height": 217
+    },
+    "blue": {
+      "left": 17,
+      "top": 105,
+      "width": 234,
+      "height": 388
+    },
+    "red": {
+      "left": 186,
+      "top": 321,
+      "width": 243,
+      "height": 175
+    }
+  },
+  {
+    "frame": 171,
+    "filename": "cam3_0049.png",
+    "white": {
+      "left": 77,
+      "top": 106,
+      "width": 350,
+      "height": 212
+    },
+    "blue": {
+      "left": 19,
+      "top": 113,
+      "width": 227,
+      "height": 382
+    },
+    "red": {
+      "left": 188,
+      "top": 315,
+      "width": 239,
+      "height": 180
+    }
+  },
+  {
+    "frame": 172,
+    "filename": "cam3_0050.png",
+    "white": {
+      "left": 72,
+      "top": 105,
+      "width": 352,
+      "height": 213
+    },
+    "blue": {
+      "left": 22,
+      "top": 117,
+      "width": 219,
+      "height": 379
+    },
+    "red": {
+      "left": 193,
+      "top": 307,
+      "width": 231,
+      "height": 190
+    }
+  },
+  {
+    "frame": 173,
+    "filename": "cam3_0051.png",
+    "white": {
+      "left": 64,
+      "top": 104,
+      "width": 358,
+      "height": 213
+    },
+    "blue": {
+      "left": 25,
+      "top": 123,
+      "width": 212,
+      "height": 374
+    },
+    "red": {
+      "left": 197,
+      "top": 300,
+      "width": 224,
+      "height": 198
+    }
+  },
+  {
+    "frame": 174,
+    "filename": "cam3_0052.png",
+    "white": {
+      "left": 61,
+      "top": 103,
+      "width": 357,
+      "height": 213
+    },
+    "blue": {
+      "left": 27,
+      "top": 128,
+      "width": 206,
+      "height": 370
+    },
+    "red": {
+      "left": 203,
+      "top": 291,
+      "width": 216,
+      "height": 207
+    }
+  },
+  {
+    "frame": 175,
+    "filename": "cam3_0053.png",
+    "white": {
+      "left": 56,
+      "top": 102,
+      "width": 360,
+      "height": 214
+    },
+    "blue": {
+      "left": 30,
+      "top": 135,
+      "width": 199,
+      "height": 363
+    },
+    "red": {
+      "left": 207,
+      "top": 288,
+      "width": 209,
+      "height": 211
+    }
+  },
+  {
+    "frame": 176,
+    "filename": "cam3_0054.png",
+    "white": {
+      "left": 53,
+      "top": 102,
+      "width": 360,
+      "height": 214
+    },
+    "blue": {
+      "left": 33,
+      "top": 139,
+      "width": 193,
+      "height": 360
+    },
+    "red": {
+      "left": 210,
+      "top": 283,
+      "width": 203,
+      "height": 216
+    }
+  },
+  {
+    "frame": 177,
+    "filename": "cam3_0055.png",
+    "white": {
+      "left": 50,
+      "top": 102,
+      "width": 361,
+      "height": 214
+    },
+    "blue": {
+      "left": 35,
+      "top": 143,
+      "width": 189,
+      "height": 356
+    },
+    "red": {
+      "left": 212,
+      "top": 276,
+      "width": 199,
+      "height": 224
+    }
+  },
+  {
+    "frame": 178,
+    "filename": "cam3_0056.png",
+    "white": {
+      "left": 46,
+      "top": 101,
+      "width": 363,
+      "height": 215
+    },
+    "blue": {
+      "left": 37,
+      "top": 146,
+      "width": 184,
+      "height": 354
+    },
+    "red": {
+      "left": 215,
+      "top": 275,
+      "width": 194,
+      "height": 225
+    }
+  },
+  {
+    "frame": 179,
+    "filename": "cam3_0057.png",
+    "white": {
+      "left": 44,
+      "top": 101,
+      "width": 363,
+      "height": 215
+    },
+    "blue": {
+      "left": 39,
+      "top": 149,
+      "width": 180,
+      "height": 350
+    },
+    "red": {
+      "left": 217,
+      "top": 272,
+      "width": 190,
+      "height": 228
+    }
+  },
+  {
+    "frame": 180,
+    "filename": "cam3_0058.png",
+    "white": {
+      "left": 44,
+      "top": 101,
+      "width": 362,
+      "height": 215
+    },
+    "blue": {
+      "left": 40,
+      "top": 149,
+      "width": 178,
+      "height": 351
+    },
+    "red": {
+      "left": 218,
+      "top": 268,
+      "width": 188,
+      "height": 232
+    }
+  },
+  {
+    "frame": 181,
+    "filename": "cam3_0059.png",
+    "white": {
+      "left": 42,
+      "top": 101,
+      "width": 363,
+      "height": 215
+    },
+    "blue": {
+      "left": 41,
+      "top": 152,
+      "width": 176,
+      "height": 348
+    },
+    "red": {
+      "left": 219,
+      "top": 269,
+      "width": 186,
+      "height": 231
+    }
+  },
+  {
+    "frame": 182,
+    "filename": "cam3_0060.png",
+    "white": {
+      "left": 41,
+      "top": 101,
+      "width": 363,
+      "height": 215
+    },
+    "blue": {
+      "left": 41,
+      "top": 152,
+      "width": 176,
+      "height": 348
+    },
+    "red": {
+      "left": 219,
+      "top": 269,
+      "width": 186,
+      "height": 231
+    }
+  },
+  {
+    "frame": 183,
+    "filename": "cam4_0000.png",
+    "white": {
+      "left": 42,
+      "top": 101,
+      "width": 363,
+      "height": 215
+    },
+    "blue": {
+      "left": 229,
+      "top": 153,
+      "width": 176,
+      "height": 347
+    },
+    "red": {
+      "left": 41,
+      "top": 267,
+      "width": 186,
+      "height": 233
+    }
+  },
+  {
+    "frame": 184,
+    "filename": "cam4_0001.png",
+    "white": {
+      "left": 41,
+      "top": 101,
+      "width": 362,
+      "height": 215
+    },
+    "blue": {
+      "left": 229,
+      "top": 151,
+      "width": 176,
+      "height": 348
+    },
+    "red": {
+      "left": 41,
+      "top": 269,
+      "width": 186,
+      "height": 231
+    }
+  },
+  {
+    "frame": 185,
+    "filename": "cam4_0002.png",
+    "white": {
+      "left": 40,
+      "top": 101,
+      "width": 362,
+      "height": 215
+    },
+    "blue": {
+      "left": 228,
+      "top": 149,
+      "width": 178,
+      "height": 351
+    },
+    "red": {
+      "left": 40,
+      "top": 268,
+      "width": 188,
+      "height": 232
+    }
+  },
+  {
+    "frame": 186,
+    "filename": "cam4_0003.png",
+    "white": {
+      "left": 39,
+      "top": 101,
+      "width": 363,
+      "height": 215
+    },
+    "blue": {
+      "left": 227,
+      "top": 147,
+      "width": 180,
+      "height": 352
+    },
+    "red": {
+      "left": 39,
+      "top": 272,
+      "width": 190,
+      "height": 228
+    }
+  },
+  {
+    "frame": 187,
+    "filename": "cam4_0004.png",
+    "white": {
+      "left": 37,
+      "top": 101,
+      "width": 362,
+      "height": 215
+    },
+    "blue": {
+      "left": 225,
+      "top": 144,
+      "width": 184,
+      "height": 355
+    },
+    "red": {
+      "left": 37,
+      "top": 274,
+      "width": 196,
+      "height": 226
+    }
+  },
+  {
+    "frame": 188,
+    "filename": "cam4_0005.png",
+    "white": {
+      "left": 36,
+      "top": 102,
+      "width": 362,
+      "height": 214
+    },
+    "blue": {
+      "left": 223,
+      "top": 143,
+      "width": 188,
+      "height": 356
+    },
+    "red": {
+      "left": 35,
+      "top": 276,
+      "width": 200,
+      "height": 224
+    }
+  },
+  {
+    "frame": 189,
+    "filename": "cam4_0006.png",
+    "white": {
+      "left": 33,
+      "top": 102,
+      "width": 362,
+      "height": 214
+    },
+    "blue": {
+      "left": 220,
+      "top": 139,
+      "width": 193,
+      "height": 360
+    },
+    "red": {
+      "left": 33,
+      "top": 283,
+      "width": 203,
+      "height": 216
+    }
+  },
+  {
+    "frame": 190,
+    "filename": "cam4_0007.png",
+    "white": {
+      "left": 31,
+      "top": 102,
+      "width": 359,
+      "height": 214
+    },
+    "blue": {
+      "left": 217,
+      "top": 134,
+      "width": 199,
+      "height": 364
+    },
+    "red": {
+      "left": 30,
+      "top": 288,
+      "width": 209,
+      "height": 211
+    }
+  },
+  {
+    "frame": 191,
+    "filename": "cam4_0008.png",
+    "white": {
+      "left": 28,
+      "top": 103,
+      "width": 357,
+      "height": 213
+    },
+    "blue": {
+      "left": 213,
+      "top": 128,
+      "width": 206,
+      "height": 370
+    },
+    "red": {
+      "left": 27,
+      "top": 291,
+      "width": 216,
+      "height": 207
+    }
+  },
+  {
+    "frame": 192,
+    "filename": "cam4_0009.png",
+    "white": {
+      "left": 25,
+      "top": 104,
+      "width": 357,
+      "height": 213
+    },
+    "blue": {
+      "left": 209,
+      "top": 123,
+      "width": 213,
+      "height": 374
+    },
+    "red": {
+      "left": 25,
+      "top": 300,
+      "width": 224,
+      "height": 198
+    }
+  },
+  {
+    "frame": 193,
+    "filename": "cam4_0010.png",
+    "white": {
+      "left": 22,
+      "top": 105,
+      "width": 352,
+      "height": 213
+    },
+    "blue": {
+      "left": 205,
+      "top": 117,
+      "width": 219,
+      "height": 380
+    },
+    "red": {
+      "left": 22,
+      "top": 307,
+      "width": 230,
+      "height": 190
+    }
+  },
+  {
+    "frame": 194,
+    "filename": "cam4_0011.png",
+    "white": {
+      "left": 19,
+      "top": 106,
+      "width": 350,
+      "height": 212
+    },
+    "blue": {
+      "left": 200,
+      "top": 112,
+      "width": 227,
+      "height": 383
+    },
+    "red": {
+      "left": 19,
+      "top": 315,
+      "width": 237,
+      "height": 180
+    }
+  },
+  {
+    "frame": 195,
+    "filename": "cam4_0012.png",
+    "white": {
+      "left": 18,
+      "top": 105,
+      "width": 342,
+      "height": 217
+    },
+    "blue": {
+      "left": 195,
+      "top": 106,
+      "width": 234,
+      "height": 387
+    },
+    "red": {
+      "left": 17,
+      "top": 321,
+      "width": 244,
+      "height": 175
+    }
+  },
+  {
+    "frame": 196,
+    "filename": "cam4_0013.png",
+    "white": {
+      "left": 15,
+      "top": 99,
+      "width": 338,
+      "height": 234
+    },
+    "blue": {
+      "left": 190,
+      "top": 100,
+      "width": 241,
+      "height": 391
+    },
+    "red": {
+      "left": 15,
+      "top": 323,
+      "width": 251,
+      "height": 179
+    }
+  },
+  {
+    "frame": 197,
+    "filename": "cam4_0014.png",
+    "white": {
+      "left": 14,
+      "top": 93,
+      "width": 330,
+      "height": 248
+    },
+    "blue": {
+      "left": 185,
+      "top": 94,
+      "width": 247,
+      "height": 395
+    },
+    "red": {
+      "left": 14,
+      "top": 324,
+      "width": 259,
+      "height": 184
+    }
+  },
+  {
+    "frame": 198,
+    "filename": "cam4_0015.png",
+    "white": {
+      "left": 13,
+      "top": 88,
+      "width": 321,
+      "height": 263
+    },
+    "blue": {
+      "left": 179,
+      "top": 88,
+      "width": 254,
+      "height": 399
+    },
+    "red": {
+      "left": 13,
+      "top": 327,
+      "width": 264,
+      "height": 187
+    }
+  },
+  {
+    "frame": 199,
+    "filename": "cam4_0016.png",
+    "white": {
+      "left": 13,
+      "top": 82,
+      "width": 310,
+      "height": 280
+    },
+    "blue": {
+      "left": 173,
+      "top": 83,
+      "width": 260,
+      "height": 401
+    },
+    "red": {
+      "left": 13,
+      "top": 329,
+      "width": 270,
+      "height": 190
+    }
+  },
+  {
+    "frame": 200,
+    "filename": "cam4_0017.png",
+    "white": {
+      "left": 14,
+      "top": 77,
+      "width": 296,
+      "height": 296
+    },
+    "blue": {
+      "left": 168,
+      "top": 77,
+      "width": 264,
+      "height": 403
+    },
+    "red": {
+      "left": 14,
+      "top": 332,
+      "width": 273,
+      "height": 192
+    }
+  },
+  {
+    "frame": 201,
+    "filename": "cam4_0018.png",
+    "white": {
+      "left": 15,
+      "top": 72,
+      "width": 284,
+      "height": 315
+    },
+    "blue": {
+      "left": 162,
+      "top": 73,
+      "width": 269,
+      "height": 404
+    },
+    "red": {
+      "left": 16,
+      "top": 335,
+      "width": 277,
+      "height": 194
+    }
+  },
+  {
+    "frame": 202,
+    "filename": "cam4_0019.png",
+    "white": {
+      "left": 18,
+      "top": 69,
+      "width": 266,
+      "height": 328
+    },
+    "blue": {
+      "left": 157,
+      "top": 69,
+      "width": 271,
+      "height": 404
+    },
+    "red": {
+      "left": 18,
+      "top": 339,
+      "width": 281,
+      "height": 194
+    }
+  },
+  {
+    "frame": 203,
+    "filename": "cam4_0020.png",
+    "white": {
+      "left": 21,
+      "top": 66,
+      "width": 249,
+      "height": 345
+    },
+    "blue": {
+      "left": 151,
+      "top": 66,
+      "width": 274,
+      "height": 402
+    },
+    "red": {
+      "left": 22,
+      "top": 343,
+      "width": 282,
+      "height": 193
+    }
+  },
+  {
+    "frame": 204,
+    "filename": "cam4_0021.png",
+    "white": {
+      "left": 26,
+      "top": 63,
+      "width": 229,
+      "height": 360
+    },
+    "blue": {
+      "left": 146,
+      "top": 63,
+      "width": 274,
+      "height": 400
+    },
+    "red": {
+      "left": 27,
+      "top": 348,
+      "width": 282,
+      "height": 190
+    }
+  },
+  {
+    "frame": 205,
+    "filename": "cam4_0022.png",
+    "white": {
+      "left": 32,
+      "top": 61,
+      "width": 208,
+      "height": 374
+    },
+    "blue": {
+      "left": 141,
+      "top": 61,
+      "width": 273,
+      "height": 396
+    },
+    "red": {
+      "left": 32,
+      "top": 353,
+      "width": 280,
+      "height": 187
+    }
+  },
+  {
+    "frame": 206,
+    "filename": "cam4_0023.png",
+    "white": {
+      "left": 39,
+      "top": 61,
+      "width": 186,
+      "height": 384
+    },
+    "blue": {
+      "left": 137,
+      "top": 61,
+      "width": 270,
+      "height": 390
+    },
+    "red": {
+      "left": 40,
+      "top": 359,
+      "width": 277,
+      "height": 182
+    }
+  },
+  {
+    "frame": 207,
+    "filename": "cam4_0024.png",
+    "white": {
+      "left": 47,
+      "top": 61,
+      "width": 162,
+      "height": 396
+    },
+    "blue": {
+      "left": 133,
+      "top": 61,
+      "width": 266,
+      "height": 385
+    },
+    "red": {
+      "left": 47,
+      "top": 364,
+      "width": 273,
+      "height": 176
+    }
+  },
+  {
+    "frame": 208,
+    "filename": "cam4_0025.png",
+    "white": {
+      "left": 56,
+      "top": 63,
+      "width": 137,
+      "height": 405
+    },
+    "blue": {
+      "left": 129,
+      "top": 62,
+      "width": 261,
+      "height": 377
+    },
+    "red": {
+      "left": 58,
+      "top": 370,
+      "width": 265,
+      "height": 169
+    }
+  },
+  {
+    "frame": 209,
+    "filename": "cam4_0026.png",
+    "white": {
+      "left": 66,
+      "top": 66,
+      "width": 112,
+      "height": 413
+    },
+    "blue": {
+      "left": 126,
+      "top": 65,
+      "width": 254,
+      "height": 368
+    },
+    "red": {
+      "left": 67,
+      "top": 377,
+      "width": 259,
+      "height": 160
+    }
+  },
+  {
+    "frame": 210,
+    "filename": "cam4_0027.png",
+    "white": {
+      "left": 78,
+      "top": 69,
+      "width": 84,
+      "height": 419
+    },
+    "blue": {
+      "left": 123,
+      "top": 68,
+      "width": 246,
+      "height": 358
+    },
+    "red": {
+      "left": 78,
+      "top": 384,
+      "width": 250,
+      "height": 149
+    }
+  },
+  {
+    "frame": 211,
+    "filename": "cam4_0028.png",
+    "white": {
+      "left": 90,
+      "top": 75,
+      "width": 57,
+      "height": 422
+    },
+    "blue": {
+      "left": 121,
+      "top": 73,
+      "width": 235,
+      "height": 344
+    },
+    "red": {
+      "left": 90,
+      "top": 390,
+      "width": 239,
+      "height": 138
+    }
+  },
+  {
+    "frame": 212,
+    "filename": "cam4_0029.png",
+    "white": {
+      "left": 103,
+      "top": 84,
+      "width": 29,
+      "height": 420
+    },
+    "blue": {
+      "left": 120,
+      "top": 79,
+      "width": 223,
+      "height": 331
+    },
+    "red": {
+      "left": 103,
+      "top": 397,
+      "width": 226,
+      "height": 126
+    }
+  },
+  {
+    "frame": 213,
+    "filename": "cam4_0030.png",
+    "white": null,
+    "blue": {
+      "left": 117,
+      "top": 85,
+      "width": 212,
+      "height": 317
+    },
+    "red": {
+      "left": 117,
+      "top": 404,
+      "width": 212,
+      "height": 112
+    }
+  },
+  {
+    "frame": 214,
+    "filename": "cam4_0031.png",
+    "white": {
+      "left": 315,
+      "top": 82,
+      "width": 28,
+      "height": 421
+    },
+    "blue": {
+      "left": 103,
+      "top": 78,
+      "width": 224,
+      "height": 332
+    },
+    "red": {
+      "left": 117,
+      "top": 397,
+      "width": 226,
+      "height": 126
+    }
+  },
+  {
+    "frame": 215,
+    "filename": "cam4_0032.png",
+    "white": {
+      "left": 300,
+      "top": 75,
+      "width": 56,
+      "height": 421
+    },
+    "blue": {
+      "left": 90,
+      "top": 73,
+      "width": 235,
+      "height": 344
+    },
+    "red": {
+      "left": 117,
+      "top": 390,
+      "width": 239,
+      "height": 138
+    }
+  },
+  {
+    "frame": 216,
+    "filename": "cam4_0033.png",
+    "white": {
+      "left": 284,
+      "top": 70,
+      "width": 85,
+      "height": 420
+    },
+    "blue": {
+      "left": 78,
+      "top": 68,
+      "width": 245,
+      "height": 358
+    },
+    "red": {
+      "left": 119,
+      "top": 384,
+      "width": 249,
+      "height": 149
+    }
+  },
+  {
+    "frame": 217,
+    "filename": "cam4_0034.png",
+    "white": {
+      "left": 269,
+      "top": 66,
+      "width": 111,
+      "height": 413
+    },
+    "blue": {
+      "left": 66,
+      "top": 65,
+      "width": 255,
+      "height": 366
+    },
+    "red": {
+      "left": 121,
+      "top": 377,
+      "width": 259,
+      "height": 160
+    }
+  },
+  {
+    "frame": 218,
+    "filename": "cam4_0035.png",
+    "white": {
+      "left": 253,
+      "top": 63,
+      "width": 137,
+      "height": 405
+    },
+    "blue": {
+      "left": 56,
+      "top": 62,
+      "width": 261,
+      "height": 377
+    },
+    "red": {
+      "left": 123,
+      "top": 370,
+      "width": 267,
+      "height": 169
+    }
+  },
+  {
+    "frame": 219,
+    "filename": "cam4_0036.png",
+    "white": {
+      "left": 237,
+      "top": 61,
+      "width": 162,
+      "height": 395
+    },
+    "blue": {
+      "left": 47,
+      "top": 61,
+      "width": 267,
+      "height": 385
+    },
+    "red": {
+      "left": 126,
+      "top": 364,
+      "width": 273,
+      "height": 176
+    }
+  },
+  {
+    "frame": 220,
+    "filename": "cam4_0037.png",
+    "white": {
+      "left": 221,
+      "top": 61,
+      "width": 186,
+      "height": 384
+    },
+    "blue": {
+      "left": 39,
+      "top": 61,
+      "width": 271,
+      "height": 391
+    },
+    "red": {
+      "left": 129,
+      "top": 359,
+      "width": 278,
+      "height": 182
+    }
+  },
+  {
+    "frame": 221,
+    "filename": "cam4_0038.png",
+    "white": {
+      "left": 206,
+      "top": 61,
+      "width": 208,
+      "height": 372
+    },
+    "blue": {
+      "left": 32,
+      "top": 61,
+      "width": 273,
+      "height": 396
+    },
+    "red": {
+      "left": 134,
+      "top": 353,
+      "width": 280,
+      "height": 187
+    }
+  },
+  {
+    "frame": 222,
+    "filename": "cam4_0039.png",
+    "white": {
+      "left": 191,
+      "top": 63,
+      "width": 229,
+      "height": 360
+    },
+    "blue": {
+      "left": 26,
+      "top": 63,
+      "width": 274,
+      "height": 400
+    },
+    "red": {
+      "left": 138,
+      "top": 348,
+      "width": 282,
+      "height": 190
+    }
+  },
+  {
+    "frame": 223,
+    "filename": "cam4_0040.png",
+    "white": {
+      "left": 176,
+      "top": 66,
+      "width": 249,
+      "height": 345
+    },
+    "blue": {
+      "left": 21,
+      "top": 66,
+      "width": 274,
+      "height": 402
+    },
+    "red": {
+      "left": 142,
+      "top": 343,
+      "width": 282,
+      "height": 193
+    }
+  },
+  {
+    "frame": 224,
+    "filename": "cam4_0041.png",
+    "white": {
+      "left": 163,
+      "top": 69,
+      "width": 265,
+      "height": 328
+    },
+    "blue": {
+      "left": 18,
+      "top": 69,
+      "width": 272,
+      "height": 403
+    },
+    "red": {
+      "left": 148,
+      "top": 339,
+      "width": 280,
+      "height": 194
+    }
+  },
+  {
+    "frame": 225,
+    "filename": "cam4_0042.png",
+    "white": {
+      "left": 149,
+      "top": 73,
+      "width": 282,
+      "height": 314
+    },
+    "blue": {
+      "left": 15,
+      "top": 73,
+      "width": 269,
+      "height": 403
+    },
+    "red": {
+      "left": 153,
+      "top": 336,
+      "width": 277,
+      "height": 193
+    }
+  },
+  {
+    "frame": 226,
+    "filename": "cam4_0043.png",
+    "white": {
+      "left": 135,
+      "top": 77,
+      "width": 297,
+      "height": 296
+    },
+    "blue": {
+      "left": 14,
+      "top": 77,
+      "width": 264,
+      "height": 403
+    },
+    "red": {
+      "left": 159,
+      "top": 332,
+      "width": 273,
+      "height": 192
+    }
+  },
+  {
+    "frame": 227,
+    "filename": "cam4_0044.png",
+    "white": {
+      "left": 123,
+      "top": 82,
+      "width": 310,
+      "height": 280
+    },
+    "blue": {
+      "left": 13,
+      "top": 83,
+      "width": 260,
+      "height": 401
+    },
+    "red": {
+      "left": 163,
+      "top": 329,
+      "width": 270,
+      "height": 190
+    }
+  },
+  {
+    "frame": 228,
+    "filename": "cam4_0045.png",
+    "white": {
+      "left": 114,
+      "top": 88,
+      "width": 319,
+      "height": 263
+    },
+    "blue": {
+      "left": 13,
+      "top": 88,
+      "width": 254,
+      "height": 399
+    },
+    "red": {
+      "left": 169,
+      "top": 327,
+      "width": 264,
+      "height": 187
+    }
+  },
+  {
+    "frame": 229,
+    "filename": "cam4_0046.png",
+    "white": {
+      "left": 102,
+      "top": 93,
+      "width": 330,
+      "height": 248
+    },
+    "blue": {
+      "left": 14,
+      "top": 94,
+      "width": 247,
+      "height": 395
+    },
+    "red": {
+      "left": 175,
+      "top": 324,
+      "width": 257,
+      "height": 184
+    }
+  },
+  {
+    "frame": 230,
+    "filename": "cam4_0047.png",
+    "white": {
+      "left": 93,
+      "top": 99,
+      "width": 338,
+      "height": 232
+    },
+    "blue": {
+      "left": 15,
+      "top": 100,
+      "width": 241,
+      "height": 391
+    },
+    "red": {
+      "left": 181,
+      "top": 323,
+      "width": 250,
+      "height": 179
+    }
+  },
+  {
+    "frame": 231,
+    "filename": "cam4_0048.png",
+    "white": {
+      "left": 86,
+      "top": 105,
+      "width": 343,
+      "height": 217
+    },
+    "blue": {
+      "left": 17,
+      "top": 105,
+      "width": 234,
+      "height": 388
+    },
+    "red": {
+      "left": 186,
+      "top": 321,
+      "width": 243,
+      "height": 175
+    }
+  },
+  {
+    "frame": 232,
+    "filename": "cam4_0049.png",
+    "white": {
+      "left": 77,
+      "top": 106,
+      "width": 350,
+      "height": 212
+    },
+    "blue": {
+      "left": 19,
+      "top": 113,
+      "width": 227,
+      "height": 382
+    },
+    "red": {
+      "left": 188,
+      "top": 315,
+      "width": 239,
+      "height": 180
+    }
+  },
+  {
+    "frame": 233,
+    "filename": "cam4_0050.png",
+    "white": {
+      "left": 72,
+      "top": 105,
+      "width": 352,
+      "height": 213
+    },
+    "blue": {
+      "left": 22,
+      "top": 117,
+      "width": 219,
+      "height": 379
+    },
+    "red": {
+      "left": 193,
+      "top": 307,
+      "width": 231,
+      "height": 190
+    }
+  },
+  {
+    "frame": 234,
+    "filename": "cam4_0051.png",
+    "white": {
+      "left": 64,
+      "top": 104,
+      "width": 358,
+      "height": 213
+    },
+    "blue": {
+      "left": 25,
+      "top": 123,
+      "width": 212,
+      "height": 374
+    },
+    "red": {
+      "left": 197,
+      "top": 300,
+      "width": 224,
+      "height": 198
+    }
+  },
+  {
+    "frame": 235,
+    "filename": "cam4_0052.png",
+    "white": {
+      "left": 61,
+      "top": 103,
+      "width": 357,
+      "height": 213
+    },
+    "blue": {
+      "left": 27,
+      "top": 128,
+      "width": 206,
+      "height": 370
+    },
+    "red": {
+      "left": 203,
+      "top": 291,
+      "width": 216,
+      "height": 207
+    }
+  },
+  {
+    "frame": 236,
+    "filename": "cam4_0053.png",
+    "white": {
+      "left": 56,
+      "top": 102,
+      "width": 360,
+      "height": 214
+    },
+    "blue": {
+      "left": 30,
+      "top": 135,
+      "width": 199,
+      "height": 363
+    },
+    "red": {
+      "left": 207,
+      "top": 288,
+      "width": 209,
+      "height": 211
+    }
+  },
+  {
+    "frame": 237,
+    "filename": "cam4_0054.png",
+    "white": {
+      "left": 53,
+      "top": 102,
+      "width": 360,
+      "height": 214
+    },
+    "blue": {
+      "left": 33,
+      "top": 139,
+      "width": 193,
+      "height": 360
+    },
+    "red": {
+      "left": 210,
+      "top": 283,
+      "width": 203,
+      "height": 216
+    }
+  },
+  {
+    "frame": 238,
+    "filename": "cam4_0055.png",
+    "white": {
+      "left": 50,
+      "top": 102,
+      "width": 361,
+      "height": 214
+    },
+    "blue": {
+      "left": 35,
+      "top": 143,
+      "width": 189,
+      "height": 356
+    },
+    "red": {
+      "left": 212,
+      "top": 276,
+      "width": 199,
+      "height": 224
+    }
+  },
+  {
+    "frame": 239,
+    "filename": "cam4_0056.png",
+    "white": {
+      "left": 46,
+      "top": 101,
+      "width": 363,
+      "height": 215
+    },
+    "blue": {
+      "left": 37,
+      "top": 146,
+      "width": 184,
+      "height": 354
+    },
+    "red": {
+      "left": 215,
+      "top": 275,
+      "width": 194,
+      "height": 225
+    }
+  },
+  {
+    "frame": 240,
+    "filename": "cam4_0057.png",
+    "white": {
+      "left": 44,
+      "top": 101,
+      "width": 363,
+      "height": 215
+    },
+    "blue": {
+      "left": 39,
+      "top": 149,
+      "width": 180,
+      "height": 350
+    },
+    "red": {
+      "left": 217,
+      "top": 272,
+      "width": 190,
+      "height": 228
+    }
+  },
+  {
+    "frame": 241,
+    "filename": "cam4_0058.png",
+    "white": {
+      "left": 44,
+      "top": 101,
+      "width": 362,
+      "height": 215
+    },
+    "blue": {
+      "left": 40,
+      "top": 149,
+      "width": 178,
+      "height": 351
+    },
+    "red": {
+      "left": 218,
+      "top": 268,
+      "width": 188,
+      "height": 232
+    }
+  },
+  {
+    "frame": 242,
+    "filename": "cam4_0059.png",
+    "white": {
+      "left": 42,
+      "top": 101,
+      "width": 363,
+      "height": 215
+    },
+    "blue": {
+      "left": 41,
+      "top": 152,
+      "width": 176,
+      "height": 348
+    },
+    "red": {
+      "left": 219,
+      "top": 269,
+      "width": 186,
+      "height": 231
+    }
+  },
+  {
+    "frame": 243,
+    "filename": "cam4_0060.png",
+    "white": {
+      "left": 41,
+      "top": 101,
+      "width": 363,
+      "height": 215
+    },
+    "blue": {
+      "left": 41,
+      "top": 152,
+      "width": 176,
+      "height": 348
+    },
+    "red": {
+      "left": 219,
+      "top": 269,
+      "width": 186,
+      "height": 231
+    }
+  }
+]
+const fps = 10;
+let zoom = 1;
+let frame = 0;
+let interval;
+let leftPopup, rightPopup, redPopup;
+
+function openPopups() {
+  $('button').hide()
+  frame = 0;
+
+  const first = popupData[0];
+  const leftBounds = first.white ? {
+    left: first.white.left * zoom,
+    top: first.white.top * zoom,
+    width: first.white.width * zoom,
+    height: first.white.height * zoom
+  } : { left: 100, top: 100, width: 200, height: 200 };
+
+  const rightBounds = first.blue ? {
+    left: first.blue.left * zoom,
+    top: first.blue.top * zoom,
+    width: first.blue.width * zoom,
+    height: first.blue.height * zoom
+  } : { left: 400, top: 100, width: 200, height: 200 };
+
+  leftPopup = window.open('', 'leftPopup', `left=${leftBounds.left},top=${leftBounds.top},width=${leftBounds.width},height=${leftBounds.height}`);
+  rightPopup = window.open('', 'rightPopup', `left=${rightBounds.left},top=${rightBounds.top},width=${rightBounds.width},height=${rightBounds.height}`);
+  redPopup = window.open('', 'redPopup', `left=0,top=0,width=100,height=100`);
+
+  if (!leftPopup || !rightPopup || !redPopup) {
+    alert("Popups blocked.");
+    return;
+  }
+
+  leftPopup.document.write(`<body style="margin:0;overflow:hidden;"><div id="whiteImage" style="width:100%;height:100%;background-repeat:no-repeat;background-position:0 0;background-size:cover;"></div></body>`);
+  rightPopup.document.write(`<body style="margin:0;overflow:hidden;"><div id="blueImage" style="filter:invert(1); width:100%;height:100%;background-repeat:no-repeat;background-position:0 0;background-size:cover;"></div></body>`);
+  redPopup.document.write(`<body style="margin:0;overflow:hidden;"><div id="redImage" style="width:100%;height:100%;background-repeat:no-repeat;background-position:0 0;background-size:cover;"></div></body>`);
+
+  interval = setInterval(() => {
+    if (frame >= popupData.length) {
+      clearInterval(interval);
+      return;
+    }
+
+    const data = popupData[frame];
+    const imgPath = `seq/cam/side0-${data.filename}`;
+    const imgPath1 = `seq/cam/side2-${data.filename}`;
+    const imgPath2 = `seq/cam/side1-${data.filename}`;
+
+    // WHITE
+    if (data.white) {
+      const w = data.white;
+      const whiteDiv = leftPopup.document.getElementById('whiteImage');
+      leftPopup.moveTo(w.left * zoom, w.top * zoom);
+      leftPopup.resizeTo(w.width * zoom, w.height * zoom + 30);
+      whiteDiv.style.backgroundImage = `url(${imgPath1})`;
+      whiteDiv.style.backgroundSize = `${600 * zoom}px ${600 * zoom}px`;
+      whiteDiv.style.marginLeft = `${-w.left * zoom}px`;
+      whiteDiv.style.marginTop = `${-w.top * zoom}px`;
+      whiteDiv.style.width = `${600 * zoom}px`;
+      whiteDiv.style.height = `${600 * zoom}px`;
+    }
+
+    // BLUE
+    if (data.blue) {
+      const b = data.blue;
+      const blueDiv = rightPopup.document.getElementById('blueImage');
+      rightPopup.moveTo(b.left * zoom, b.top * zoom);
+      rightPopup.resizeTo(b.width * zoom, b.height * zoom + 30);
+      blueDiv.style.backgroundImage = `url(${imgPath2})`;
+      blueDiv.style.backgroundSize = `${600 * zoom}px ${600 * zoom}px`;
+      blueDiv.style.marginLeft = `${-b.left * zoom}px`;
+      blueDiv.style.marginTop = `${-b.top * zoom}px`;
+      blueDiv.style.width = `${600 * zoom}px`;
+      blueDiv.style.height = `${600 * zoom}px`;
+    }
+if (data.red && data.white && data.blue) {
+  const w = data.white;
+  const b = data.blue;
+  const r = data.red;
+
+  let redLeft, redWidth;
+
+  if (w.left > b.left) {
+    redLeft = (b.left + b.width) * zoom;
+    redWidth = ((w.left + w.width) - (b.left + b.width)) * zoom;
+  } else {
+    redLeft = w.left * zoom;
+    redWidth = (b.left - w.left) * zoom;
+  }
+
+  const redTop = (w.top + w.height) * zoom;
+  const redHeight = r.height * zoom;
+
+  redPopup.moveTo(redLeft, redTop-20);
+  redPopup.resizeTo(redWidth, redHeight + 30);
+
+  const redDiv = redPopup.document.getElementById('redImage');
+  redDiv.style.backgroundImage = `url(${imgPath})`;
+  redDiv.style.backgroundSize = `${600 * zoom}px ${600 * zoom}px`;
+  redDiv.style.marginLeft = `${-r.left * zoom}px`;
+  redDiv.style.marginTop = `${-r.top * zoom-20}px`;
+  redDiv.style.width = `${600 * zoom}px`;
+  redDiv.style.height = `${600 * zoom}px`;
+}
+
+
+// At the end of your setInterval frame logic:
+if ((data.frame >= 0 && data.frame <= 15) || (data.frame >= 45 && data.frame <= 60)) {
+  leftPopup.focus(); // bring WHITE (left) on top of BLUE
+} else {
+  rightPopup.focus(); // bring BLUE (right) on top of WHITE
+}
+
+
+    frame++;
+  }, 1000 / fps);
+
+  setTimeout(() => {
+    if (leftPopup && !leftPopup.closed) leftPopup.close();
+    if (rightPopup && !rightPopup.closed) rightPopup.close();
+    if (redPopup && !redPopup.closed) redPopup.close();
+  }, 30000);
+}
+
+  </script>
+</head>
+<body>
+  <button onclick="openPopups()">Start Full 30-Frame Animation</button>
+</body>
+</html>

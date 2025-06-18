@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>MediaPipe - Face Mesh</title>
+    <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils@0.6/control_utils.css" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="demo.css" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils@0.6/control_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3/drawing_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+<style type="text/css">
+  @keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.abs {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* border-radius: 50%; */
+    overflow: hidden;
+    filter: contrast(2);
+}
+.grad{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, #f90d0d, transparent 50% 50%);
+    z-index: 10;}
+a {
+  color: white;
+  text-decoration: none;
+}
+a:hover {
+  color: lightblue;
+}
+
+body {
+  bottom: 0;
+  font-family: "Titillium Web", sans-serif;
+  color: white;
+  left: 0;
+  margin: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform-origin: 0px 0px;
+  overflow: hidden;
+}
+
+.container {
+    position: absolute;
+    background: linear-gradient(0deg, black, white 0%);
+    width: 100%;
+    max-height: 100%;
+    background-image: url(dottedgrad.jpg);
+    background-size: 20% auto;
+    background-repeat: repeat-x;
+    background-position: top;
+}
+.input_video {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.input_video.selfie {
+  transform: scale(-1, 1);
+}
+
+.input_image {
+  position: absolute;
+}
+
+.canvas-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.output_canvas {
+  max-width: 100%;
+  display: block;
+  position: relative;
+  left: 0;
+  top: 0;
+}
+
+.logo {
+  bottom: 10px;
+  right: 20px;
+}
+.logo .title {
+  color: white;
+  font-size: 28px;
+}
+.logo .subtitle {
+  position: relative;
+  color: white;
+  font-size: 10px;
+  left: -30px;
+  top: 20px;
+}
+
+.control-panel {
+  display: none;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+
+.loading {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  align-items: center;
+  backface-visibility: hidden;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 1s;
+}
+.loading .message {
+  font-size: x-large;
+}
+.loading .spinner {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  animation: spin 1s linear infinite;
+  border: 32px solid #bebebe;
+  border-top: 32px solid #3498db;
+  border-radius: 50%;
+}
+
+.loaded .loading {
+  opacity: 0;
+}
+
+.shoutout {
+  left: 0;
+  right: 0;
+  bottom: 40px;
+  text-align: center;
+  font-size: 24px;
+  position: absolute;
+}
+.abs {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* border-radius: 50%; */
+    overflow: hidden;
+}
+.mouthCanvas_wrap{    
+    width: 40vw;
+    height: 40vw;
+    left: 10vw;
+    z-index: 0;
+    bottom: 0vh;
+}
+.faceCenterCanvas_wrap{
+  width: 60vh;
+  height: 60vh;
+  left:auto;
+  right: 30vh;
+  top: 0;
+  z-index: 10
+}
+.output_canvas{
+  opacity: 0
+}
+#mouthCanvas {
+    transform: rotate(-90deg) scaleX(-1) scaleY(1) skewY(-20deg) translateX(-75%) translateY(95%);
+    transform-origin: left bottom;
+}
+.canvaswrap{
+  position: absolute;
+  background-image: url();
+  overflow: hidden;
+}
+.frame{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 10000
+}
+.faceCenterCanvas_wrap .frame{
+  background-image: url(window-02.png);
+  background-size: 100% 100%
+}
+
+.mouthCanvas_wrap .frame{    background-size: 100% 100%;
+    background: linear-gradient(180deg, white 50%, transparent 50%)
+}
+
+.ground_frame{
+  background-image: url(holeandfloor.png);
+  width: 100vw;
+  height: 40vh;
+  background-size: 100% 100%;
+  left:0;
+  bottom: 0;
+  z-index: 10;
+  position: absolute;
+}
+.speaking{
+  display: none;
+    position: absolute;
+    left: 32.5vw;
+    top: 5vh;
+    z-index: 100000;
+    transform: translateX(-50%);}
+    .speaking_tail{
+    position: absolute;
+    transform: translateX(-50%) translateY(-4px);
+    left: 45%;
+    z-index: 100000000;
+    top: 100%;
+    width: 18%;
+    }
+    .speaking_text{
+    position: relative;
+    left: 0;
+    top: 0;
+    color: black;
+    z-index: 100000;
+    text-align: center;
+    padding: 5vw;
+    border: 1px solid black;
+    border-radius: 50%;
+    background: white;
+    width: 10vw;
+    left: 50%;
+    transform: translateX(-50%);}
+</style>
+</head>
+<body>
+
+<!-- partial:index.partial.html -->
+<div class="container">
+    <video class="input_video"></video>
+    <div class="canvas-container">
+      <canvas class="output_canvas" width="1280px" height="720px"></canvas>
+      <div class="frame ground_frame"></div>
+      <div class="canvaswrap mouthCanvas_wrap"><div class="frame"></div><div class="grad"></div><canvas id="mouthCanvas" class="abs"></canvas></div>
+      <div class="canvaswrap faceCenterCanvas_wrap"><div class="frame"></div><div class="grad"></div><canvas id="faceCenterCanvas" class="abs"></canvas></div>
+    </div>
+    <div class="loading">
+      <div class="spinner"></div>
+      <div class="message">
+      </div>
+    </div>
+    <div class="speaking"><img src="tail-05.png" class="speaking_tail"><div class="speaking_text">What have you done?</div></div>
+</div>
+<div class="control-panel">
+</div>
+  <script type="module">
+//     Look at yourself.
+// You're doing great.
+// What have you done?
+// It's going to be fine.
+    import DeviceDetector from "https://cdn.skypack.dev/device-detector-js@2.2.10";
+// Usage: testSupport({client?: string, os?: string}[])
+// Client and os are regular expressions.
+// See: https://cdn.jsdelivr.net/npm/device-detector-js@2.2.10/README.md for
+// legal values for client and os
+testSupport([
+    { client: 'Chrome' },
+]);
+function testSupport(supportedDevices) {
+    const deviceDetector = new DeviceDetector();
+    const detectedDevice = deviceDetector.parse(navigator.userAgent);
+    let isSupported = false;
+    for (const device of supportedDevices) {
+        if (device.client !== undefined) {
+            const re = new RegExp(`^${device.client}$`);
+            if (!re.test(detectedDevice.client.name)) {
+                continue;
+            }
+        }
+        if (device.os !== undefined) {
+            const re = new RegExp(`^${device.os}$`);
+            if (!re.test(detectedDevice.os.name)) {
+                continue;
+            }
+        }
+        isSupported = true;
+        break;
+    }
+    if (!isSupported) {
+        alert(`This demo, running on ${detectedDevice.client.name}/${detectedDevice.os.name}, ` +
+            `is not well supported at this time, continue at your own risk.`);
+    }
+}
+const controls = window;
+const drawingUtils = window;
+const mpFaceMesh = window;
+const config = { locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@` +
+            `${mpFaceMesh.VERSION}/${file}`;
+    } };
+// Our input frames will come from here.
+const videoElement = document.getElementsByClassName('input_video')[0];
+const canvasElement = document.getElementsByClassName('output_canvas')[0];
+const controlsElement = document.getElementsByClassName('control-panel')[0];
+const canvasCtx = canvasElement.getContext('2d');
+/**
+ * Solution options.
+ */
+const solutionOptions = {
+    selfieMode: true,
+    enableFaceGeometry: false,
+    maxNumFaces: 1,
+    refineLandmarks: false,
+    minDetectionConfidence: 0.5,
+    minTrackingConfidence: 0.5
+};
+// We'll add this to our control panel later, but we'll save it here so we can
+// call tick() each time the graph runs.
+const fpsControl = new controls.FPS();
+// Optimization: Turn off animated spinner after its hiding animation is done.
+const spinner = document.querySelector('.loading');
+spinner.ontransitionend = () => {
+    spinner.style.display = 'none';
+};
+function onResults(results) {
+  document.body.classList.add('loaded');
+  fpsControl.tick();
+
+  const ctxMain = canvasCtx;
+  const width = canvasElement.width;
+  const height = canvasElement.height;
+  ctxMain.save();
+  ctxMain.clearRect(0, 0, width, height);
+  ctxMain.drawImage(results.image, 0, 0, width, height);
+
+if (!results.multiFaceLandmarks || results.multiFaceLandmarks.length === 0) {
+  // No face, but keep system running and still update .leftline layout
+  // document.querySelectorAll('.leftline').forEach(leftline => {
+  //   const parent = leftline.parentElement;
+  //   const rect = parent.getBoundingClientRect();
+  //   const screenW = window.innerWidth;
+  //   const screenH = window.innerHeight;
+
+  //   const left = rect.left;
+  //   const top = rect.top;
+  //   const newWidth = screenW - left;
+
+  //   leftline.style.position = 'absolute';
+  //   leftline.style.height = `${screenH}px`;
+  //   leftline.style.width = `${newWidth}px`;
+  //   leftline.style.marginTop = `${top}px`;
+  // });
+
+  canvasCtx.restore();
+  return;
+}
+
+
+
+  const face = results.multiFaceLandmarks[0];
+  const leftEye = face[159];   // Lower-left eyelid
+  const rightEye = face[386];  // Lower-right eyelid
+  const nose = face[1];        // Nose tip
+  const mouth = face[13];      // Center of lips
+  const centerX = (leftEye.x + rightEye.x + nose.x) / 3;
+const centerY = (leftEye.y + rightEye.y + nose.y) / 3;
+const faceCenter = { x: centerX * width, y: centerY * height };
+
+
+  const positions = {
+    // leftEye: { x: leftEye.x * width, y: leftEye.y * height },
+    // rightEye: { x: rightEye.x * width, y: rightEye.y * height },
+    // nose: { x: nose.x * width, y: nose.y * height },
+    mouth: { x: mouth.x * width, y: (mouth.y+0.03) * height },
+    faceCenter: faceCenter
+
+  };
+
+  const targets = {
+    // leftEye: document.getElementById('leftEyeCanvas'),
+    // rightEye: document.getElementById('rightEyeCanvas'),
+    // nose: document.getElementById('noseCanvas'),
+    mouth: document.getElementById('mouthCanvas'),
+    faceCenter: document.getElementById('faceCenterCanvas')
+
+  };
+
+  const source = results.image; // this is a video frame, like a canvas
+for (const key in targets) {
+  const pos = positions[key];
+  const canvas = targets[key];
+  const ctx = canvas.getContext('2d');
+
+  const rect = canvas.getBoundingClientRect(); // get rendered (CSS) size
+
+
+  // ✅ Use full width/height for faceCenter, half for others
+  const isFaceCenter = key === 'faceCenter';
+  const cropW = (isFaceCenter ? rect.width/2 : rect.width/2);
+  const cropH = (isFaceCenter ? rect.height/2 : rect.height/2);
+
+
+  const sx = (pos.x - cropW / 2) / width * source.width;
+  const sy = (pos.y - cropH / 2) / height * source.height;
+  const sWidth = cropW / width * source.width;
+  const sHeight = cropH / height * source.height;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(source, sx, sy, sWidth, sHeight, 0, 0, canvas.width, canvas.height);
+}
+
+
+  // // Also draw the landmarks as before
+  // for (const landmarks of results.multiFaceLandmarks) {
+  //   drawingUtils.drawConnectors(ctxMain, landmarks, mpFaceMesh.FACEMESH_TESSELATION, { color: '#C0C0C070', lineWidth: 1 });
+  //   drawingUtils.drawConnectors(ctxMain, landmarks, mpFaceMesh.FACEMESH_RIGHT_EYE, { color: '#FF3030' });
+  //   drawingUtils.drawConnectors(ctxMain, landmarks, mpFaceMesh.FACEMESH_LEFT_EYE, { color: '#30FF30' });
+  //   drawingUtils.drawConnectors(ctxMain, landmarks, mpFaceMesh.FACEMESH_FACE_OVAL, { color: '#E0E0E0' });
+  //   drawingUtils.drawConnectors(ctxMain, landmarks, mpFaceMesh.FACEMESH_LIPS, { color: '#E0E0E0' });
+  // }
+
+  ctxMain.restore();
+
+  // Mouth openness calculation (distance between upper and lower lips)
+const upperLip = face[13];
+const lowerLip = face[14];
+const mouthOpenDist = Math.abs(lowerLip.y - upperLip.y);
+const mouthIsOpen = mouthOpenDist > 0.035;
+
+const speakingBox = document.querySelector('.speaking');
+const speakingText = document.querySelector('.speaking_text');
+
+// Only pick new phrase when mouth opens
+if (mouthIsOpen && !window.speakingActive) {
+  window.speakingActive = true;
+  
+  const phrases = [
+    "What have I done?",
+    "Oops.",
+    "Was this really me?",
+    "This wasn’t the plan.",
+    "Ten out of ten regret.",
+    "How did it end up like this?"
+  ];
+  
+  const chosen = phrases[Math.floor(Math.random() * phrases.length)].split(" ");
+  let i = 0;
+  speakingText.innerText = '';
+  speakingBox.style.display = 'block';
+
+  window.speakingInterval = setInterval(() => {
+    if (i < chosen.length) {
+      speakingText.innerText += (i > 0 ? ' ' : '') + chosen[i];
+      i++;
+    }
+  }, 400);
+}
+
+if (!mouthIsOpen && window.speakingActive) {
+  window.speakingActive = false;
+  speakingBox.style.display = 'none';
+  speakingText.innerText = '';
+  clearInterval(window.speakingInterval);
+  window.speakingInterval = null;
+}
+
+
+}
+
+const faceMesh = new mpFaceMesh.FaceMesh(config);
+faceMesh.setOptions(solutionOptions);
+faceMesh.onResults(onResults);
+// Present a control panel through which the user can manipulate the solution
+// options.
+new controls
+    .ControlPanel(controlsElement, solutionOptions)
+    .add([
+    new controls.StaticText({ title: 'MediaPipe Face Mesh' }),
+    fpsControl,
+    new controls.Toggle({ title: 'Selfie Mode', field: 'selfieMode' }),
+    new controls.SourcePicker({
+        onFrame: async (input, size) => {
+            const aspect = size.height / size.width;
+            let width, height;
+            if (window.innerWidth > window.innerHeight) {
+                height = window.innerHeight;
+                width = height / aspect;
+            }
+            else {
+                width = window.innerWidth;
+                height = width * aspect;
+            }
+            canvasElement.width = width;
+            canvasElement.height = height;
+            await faceMesh.send({ image: input });
+        },
+    }),
+    new controls.Slider({
+        title: 'Max Number of Faces',
+        field: 'maxNumFaces',
+        range: [1, 4],
+        step: 1
+    }),
+    new controls.Toggle({ title: 'Refine Landmarks', field: 'refineLandmarks' }),
+    new controls.Slider({
+        title: 'Min Detection Confidence',
+        field: 'minDetectionConfidence',
+        range: [0, 1],
+        step: 0.01
+    }),
+    new controls.Slider({
+        title: 'Min Tracking Confidence',
+        field: 'minTrackingConfidence',
+        range: [0, 1],
+        step: 0.01
+    }),
+])
+    .on(x => {
+    const options = x;
+    videoElement.classList.toggle('selfie', options.selfieMode);
+    faceMesh.setOptions(options);
+});
+  </script>
+
+</body>
+</html>
